@@ -1,0 +1,7 @@
+package esiea_bid;
+
+public interface Seller {
+
+	public void doBid ();
+	public void cancelBid(Bid bidToCancel);
+}

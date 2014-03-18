@@ -1,0 +1,5 @@
+package esiea_bid;
+
+public enum ProductState {
+
+}

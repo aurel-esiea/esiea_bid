@@ -1,0 +1,28 @@
+package esiea_bid;
+
+public class Product {
+
+	private static int idProduct;
+	private String description;
+	
+	public Product (String description){
+		this.description = description;
+	}
+
+	public static int getIdProduct() {
+		return idProduct;
+	}
+
+	public static void setIdProduct(int idProduct) {
+		Product.idProduct = idProduct;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+}

@@ -1,0 +1,21 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+import user.*;
+
+public class TestSystemUserAction {
+
+	@Before
+	public void setUp() throws Exception {
+		SystemUser user = new SystemUser(0, "Dupont", "Thomas", "password");
+	}
+
+	@Test
+	public void testUserConnection() {
+		user
+	}
+
+}

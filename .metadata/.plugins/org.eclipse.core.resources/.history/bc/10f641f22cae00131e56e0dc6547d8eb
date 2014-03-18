@@ -1,0 +1,9 @@
+package esiea_bid;
+
+public class Bid {
+
+	private int idBid;
+	private double price;
+	private double reservePrice;
+	
+}

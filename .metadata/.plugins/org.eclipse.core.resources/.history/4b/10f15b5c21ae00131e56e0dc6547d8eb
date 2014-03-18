@@ -1,0 +1,10 @@
+package esiea_bid;
+
+import java.util.*;
+
+public interface Seller {
+	public ArrayList sellerBid;
+	public void doBid (int idProduct, double price, double reserverPrice);
+	public void cancelBid(int idBid);
+	public void displaySellerBid();
+}

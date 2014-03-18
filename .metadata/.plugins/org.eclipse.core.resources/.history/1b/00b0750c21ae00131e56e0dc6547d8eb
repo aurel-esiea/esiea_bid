@@ -1,0 +1,34 @@
+package esiea_bid;
+
+public class SystemUser extends AbstractUser implements Buyer, Seller {
+
+	public SystemUser (String nom, String prenom, String password)
+	{
+		super(nom, prenom, password);
+	}
+
+	@Override
+	public void doBid(int idProduct, double price, double reserverPrice) {
+		
+	}
+
+	@Override
+	public void cancelBid(int idBid) {
+		
+	}
+
+	@Override
+	public void displayBid() {
+		
+	}
+
+	@Override
+	public void doOffer() {
+		
+	}
+
+	@Override
+	public void displaySellerBid() {
+		
+	}
+}

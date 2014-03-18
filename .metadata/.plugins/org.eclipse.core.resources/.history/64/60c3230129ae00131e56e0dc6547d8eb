@@ -1,0 +1,81 @@
+package user;
+
+import esiea_bid.MemoryObject;
+
+
+public class SystemUser extends AbstractUser implements Buyer, Seller {
+
+	public SystemUser (int idUser, String lastName, String firstName, String password)
+	{
+		super(idUser, lastName, firstName, password);
+	}
+	@Override
+	public void doBid(int idProduct, double price, double reserverPrice) {
+		
+	}
+
+	@Override
+	public void cancelBid(int idBid) {
+		
+	}
+
+	@Override
+	public void displayBid() {
+		
+	}
+
+	@Override
+	public void doOffer() {
+		
+	}
+
+	@Override
+	public void displaySellerBid() {
+		
+	}
+	@Override
+	public void loginUser(MemoryObject memoryObject, String password) {
+		// TODO Auto-generated method stub
+		super.loginUser(memoryObject, password);
+	}
+	@Override
+	public String getNom() {
+		// TODO Auto-generated method stub
+		return super.getNom();
+	}
+	@Override
+	public void setNom(String lastName) {
+		// TODO Auto-generated method stub
+		super.setNom(lastName);
+	}
+	@Override
+	public String getPrenom() {
+		// TODO Auto-generated method stub
+		return super.getPrenom();
+	}
+	@Override
+	public void setPrenom(String firstName) {
+		// TODO Auto-generated method stub
+		super.setPrenom(firstName);
+	}
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return super.getPassword();
+	}
+	@Override
+	public void setPassword(String password) {
+		// TODO Auto-generated method stub
+		super.setPassword(password);
+	}
+	@Override
+	public int getIdUser() {
+		// TODO Auto-generated method stub
+		return super.getIdUser();
+	}
+	@Override
+	public void setIdUser(int idUser) {
+		// TODO Auto-generated method stub
+		super.setIdUser(idUser);
+	}
+}

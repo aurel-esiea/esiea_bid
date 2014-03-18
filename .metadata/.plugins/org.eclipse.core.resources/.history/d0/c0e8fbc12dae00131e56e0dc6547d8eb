@@ -1,0 +1,8 @@
+package user;
+
+public interface Buyer {
+	
+	public void displayBid();
+	public void doOffer();
+
+}

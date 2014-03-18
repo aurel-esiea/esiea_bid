@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="esiea_bid.AbstractUser"/>
+<fullyQualifiedTypeName name="esiea_bid.Buyer"/>
+<fullyQualifiedTypeName name="esiea_bid.Seller"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="user.SystemUser"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="esiea_bid.BidState"/>
+<fullyQualifiedTypeName name="esiea_bid.Product"/>
+<fullyQualifiedTypeName name="esiea_bid.MemoryObject"/>
+</qualifiedTypeNameHistroy>

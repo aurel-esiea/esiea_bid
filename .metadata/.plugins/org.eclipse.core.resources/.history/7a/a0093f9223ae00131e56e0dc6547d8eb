@@ -1,0 +1,9 @@
+package esiea_bid;
+
+import java.util.*;
+
+public class MemoryObject {
+	
+	public List connectedUsers = new ArrayList();
+	
+}

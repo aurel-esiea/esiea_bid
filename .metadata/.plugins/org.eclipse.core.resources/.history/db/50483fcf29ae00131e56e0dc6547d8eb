@@ -1,0 +1,28 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import esiea_bid.MemoryObject;
+import user.*;
+
+public class TestSystemUserAction {
+
+	private SystemUser user;
+	private MemoryObject memoryObject;
+	private boolean loginResult;
+	@Before
+	public void setUp() throws Exception {
+		memoryObject = new MemoryObject();
+		user = new SystemUser(0, "Dupont", "Thomas", "password");
+	}
+
+	@Test
+	public void testSucessConnection() {
+		user.loginUser(memoryObject, user.getPassword());
+		assertEquals(true, loginResult);
+	}
+
+}

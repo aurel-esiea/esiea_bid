@@ -1,0 +1,13 @@
+package esiea_bid;
+
+import java.util.Date;
+
+public class Bid {
+
+	private int idBid;
+	private Date endDate;
+	private 
+	private double price;
+	private double reservePrice;
+	
+}
