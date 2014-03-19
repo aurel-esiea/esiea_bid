@@ -71,14 +71,6 @@ public class TestSellerAction {
 	}
 	
 	@Test
-	public void testBidCancelBadUser() {
-		bid.setBidState(BidState.PUBLISHED);
-		user2.doOffer(bid, listOffer, 1500.00);
-		user2.cancelBid(bid);
-		assertEquals(BidState.PUBLISHED, bid.getBidState());
-	}	
-	
-	@Test
 	public void testBidCancelReservePriceNotReached() {
 		bid.setBidState(BidState.PUBLISHED);
 		user2.doOffer(bid, listOffer, 1500.00);

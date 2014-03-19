@@ -50,7 +50,6 @@ public class TestBuyerAction {
 	
 	@Test
 	public void testdoOfferBidNotPublished() {
-		bid.setBidState(BidState.CREATED);
 		user.doOffer(bid, listOffer, 1500);
 		assertTrue(listOffer.isEmpty());
 	}

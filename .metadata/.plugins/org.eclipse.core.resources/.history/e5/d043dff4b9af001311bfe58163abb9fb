@@ -71,7 +71,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 				System.out.println("Product description : " + bid.getProduct().getDescription());
 				System.out.println("Product price : " + bid.getPrice());
 				System.out.println("Bid end the : " + bid.getEndDate());
-				if(bid.getPrice() >= bid.getReservePrice())
+				if(bid.getPrice() == bid.getReservePrice())
 					System.out.println("Reserve price has been reached");
 			}
 		}

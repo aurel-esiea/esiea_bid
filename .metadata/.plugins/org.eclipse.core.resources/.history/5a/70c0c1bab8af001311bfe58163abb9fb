@@ -51,13 +51,14 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		{	
 			if(bid.getSeller().equals(this))
 			{
-				bid.setBidState(BidState.CANCELED);
-			    System.out.println("Bid canceled");
+				System.out.println("You don't are the seller, unable to cancel this bid");
 			}
 			else
 			{
-				System.out.println("You don't are the seller, unable to cancel this bid");	
-			}	
+				bid.setBidState(BidState.CANCELED);
+			    System.out.println("Bid canceled");
+			}
+			
 		}
 	    else 
 			System.out.println("Reserve price has been reached, unable to cancel this bid");
@@ -71,7 +72,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 				System.out.println("Product description : " + bid.getProduct().getDescription());
 				System.out.println("Product price : " + bid.getPrice());
 				System.out.println("Bid end the : " + bid.getEndDate());
-				if(bid.getPrice() >= bid.getReservePrice())
+				if(bid.getPrice() == bid.getReservePrice())
 					System.out.println("Reserve price has been reached");
 			}
 		}
