@@ -2,24 +2,12 @@ package esiea_bid;
 
 public class Product {
 
-	private static int idProduct;
-	private static int currentId = 0;
 	private String description;
-	private Object productState;
+	private ProductState productState;
 	
 	public Product (String description){
-		this.idProduct = currentId;
-		currentId++;
 		this.description = description;
 		this.productState = ProductState.CREATED;
-	}
-
-	public static int getIdProduct() {
-		return idProduct;
-	}
-
-	public static void setIdProduct(int idProduct) {
-		Product.idProduct = idProduct;
 	}
 
 	public String getDescription() {
@@ -28,6 +16,16 @@ public class Product {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	
+	public ProductState getProductState() {
+		return productState;
+	}
+
+	
+	public void setProductState(ProductState productState) {
+		this.productState = productState;
 	}
 	
 }

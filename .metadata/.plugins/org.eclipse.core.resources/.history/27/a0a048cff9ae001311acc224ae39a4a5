@@ -1,0 +1,17 @@
+package esiea_bid;
+
+import user.SystemUser;
+
+public class Offer {
+
+	private double price;
+	private SystemUser user;
+	private Bid bid;
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
+}

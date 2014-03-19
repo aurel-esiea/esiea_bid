@@ -6,3 +6,7 @@
 1395094583142	Move compilation unit
 1395094586574	Move compilation unit
 1395094591096	Move compilation unit
+1395179317699	Delete element
+1395187338255	Encapsulate field 'product'
+1395187352761	Encapsulate field 'price'
+1395188212150	Encapsulate field 'buyer'

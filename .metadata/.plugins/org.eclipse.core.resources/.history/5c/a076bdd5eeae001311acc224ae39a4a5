@@ -1,0 +1,63 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import user.SystemUser;
+import esiea_bid.Bid;
+import esiea_bid.Product;
+
+public class TestSellerAction {
+
+	private SystemUser user;
+	private int bidCreationResult;
+	private static List<Product> listProduct;
+	private static List<Bid> listBid;
+	Product product1;
+	
+	@Before
+	public void setUp() throws Exception {
+		listBid = new ArrayList<Bid>();
+		listProduct = new ArrayList<Product>();
+		product1 = new Product("Blue Car");
+		listProduct.add(product1);
+		user = new SystemUser("Dupont", "Thomas", "password");
+	}
+
+	@Test
+	public void testSucessBidCreation() {
+		user.createBid(product1, listBid, -1000.00, 3000.00, new Date());
+		assertTrue(!listBid.isEmpty());
+	}
+	
+	@Test
+	public void testBidCreationBadPrice() {
+		user.createBid(product1, listBid, -1000.00, 3000.00, new Date());
+		assertTrue(true);
+	}
+
+	@Test
+	public void testBidCreationBadReservePrice() {
+		user.createBid(product1, listBid, 2000.00, 1000.00, new Date());
+		assertTrue(listBid.isEmpty());
+	}
+	
+	@Test
+	public void testBidCreationAlreadyUsedProduct() {
+		user.createBid(product1, listBid, 1000.00, 3000.00, new Date());
+		assertTrue(listBid.isEmpty());
+	}
+	
+	@Test
+	public void testBidCreationProductDoesntExist() {
+		user.createBid(product1, listBid, 1000.00, 3000.00, new Date());
+		assertTrue(listBid.isEmpty());
+		fail("Product doesn't exist");
+	}
+}

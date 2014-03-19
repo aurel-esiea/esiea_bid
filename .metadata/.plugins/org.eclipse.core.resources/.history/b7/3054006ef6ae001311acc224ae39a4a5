@@ -1,0 +1,10 @@
+package user;
+
+import esiea_bid.Bid;
+
+public interface Buyer {
+	
+	public void displayBid();
+	public void displayBuyerOffer();
+	public void doOffer(Bid bid, double price);
+}

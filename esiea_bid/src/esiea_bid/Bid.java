@@ -2,30 +2,24 @@ package esiea_bid;
 
 import java.util.Date;
 
+import user.SystemUser;
+
 public class Bid {
 
-	private int idBid;
-	private static int currentId = 0;
 	private Date endDate;
-	private Object bidState;
+	private BidState bidState;
 	private double price;
 	private double reservePrice;
+	private Product product;
+	private SystemUser seller;
 	
-	public Bid (Date endDate, double price, double reservePrice){
-		this.idBid = currentId;
-		currentId++;
+	public Bid (Product product, Date endDate, double price, double reservePrice, SystemUser seller){
+		this.setProduct(product);
 		this.endDate = endDate;
 		this.price = price;
 		this.reservePrice = reservePrice;
+		this.seller = seller;
 		this.bidState = BidState.CREATED;
-	}
-
-	public int getIdBid() {
-		return idBid;
-	}
-
-	public void setIdBid(int idBid) {
-		this.idBid = idBid;
 	}
 
 	public Date getEndDate() {
@@ -40,7 +34,7 @@ public class Bid {
 		return bidState;
 	}
 
-	public void setBidState(Object bidState) {
+	public void setBidState(BidState bidState) {
 		this.bidState = bidState;
 	}
 
@@ -58,6 +52,22 @@ public class Bid {
 
 	public void setReservePrice(double reservePrice) {
 		this.reservePrice = reservePrice;
+	}
+
+	public SystemUser getSeller() {
+		return seller;
+	}
+
+	public void setSeller(SystemUser seller) {
+		this.seller = seller;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 	
 }

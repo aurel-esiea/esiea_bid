@@ -1,5 +1,5 @@
 package esiea_bid;
 
 public enum BidState {
-	CREATED, PUBLISHED, CANCELED;
+	CREATED, PUBLISHED, CANCELED, END;
 }

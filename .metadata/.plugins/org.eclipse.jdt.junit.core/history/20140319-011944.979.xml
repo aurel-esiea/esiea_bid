@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testrun name="TestSellerAction" project="esiea_bid" tests="6" started="6" failures="0" errors="0" ignored="0">
+  <testsuite name="test.TestSellerAction" time="0.0">
+    <testcase name="testBidCreationNegativePrice" classname="test.TestSellerAction" time="0.0"/>
+    <testcase name="testBidCancel" classname="test.TestSellerAction" time="0.0"/>
+    <testcase name="testBidCreationNegativeReservePrice" classname="test.TestSellerAction" time="0.0"/>
+    <testcase name="testBidPublish" classname="test.TestSellerAction" time="0.0"/>
+    <testcase name="testSucessBidCreation" classname="test.TestSellerAction" time="0.0"/>
+    <testcase name="testBidCreationBadReservePrice" classname="test.TestSellerAction" time="0.0"/>
+  </testsuite>
+</testrun>

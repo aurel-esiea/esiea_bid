@@ -1,0 +1,53 @@
+package user;
+
+import java.util.Date;
+
+import esiea_bid.Product;
+
+
+public class SystemUser extends AbstractUser implements Buyer, Seller {
+
+	public SystemUser (String lastName, String firstName, String password)
+	{
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.password = password;
+	}
+	@Override
+	public int createBid(Product product, double price, double reserverPrice, Date endDate) {
+		return -1;
+	}
+
+	@Override
+	public void cancelBid(int idBid) {
+		
+	}
+
+	@Override
+	public void displayBid() {
+		
+	}
+
+	@Override
+	public void doOffer() {
+		
+	}
+
+	@Override
+	public void displaySellerBid() {
+		
+	}
+	@Override
+	public void publishBid(int bidId) {
+		
+	}
+	@Override
+	public void showBuyerOffer() {
+		
+	}
+	@Override
+	public void displayBuyerOffer() {
+		
+	}
+	
+}

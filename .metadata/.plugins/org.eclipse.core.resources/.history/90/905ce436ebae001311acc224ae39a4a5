@@ -1,0 +1,39 @@
+package test;
+
+import static org.junit.Assert.*;
+import java.util.*;
+import org.junit.Before;
+import org.junit.Test;
+import user.*;
+
+public class TestSystemUserAction {
+
+	private SystemUser user;
+	private List<Object> listUserConnected;
+	private int loginResult;
+	@Before
+	public void setUp() throws Exception {
+		listUserConnected = new ArrayList<Object>();
+		user = new SystemUser("Dupont", "Thomas", "password");
+	}
+	
+	@Test
+	public void testSucessConnection() {
+		loginResult = user.loginUser(listUserConnected, user.getPassword());
+		assertEquals(1, loginResult);
+	}
+
+	@Test
+	public void testAlreadyExistConnection() {
+		user.loginUser(listUserConnected, user.getPassword());
+		loginResult = user.loginUser(listUserConnected, user.getPassword());
+		assertEquals(0, loginResult);
+	}
+	
+	@Test
+	public void testFailConnection() {
+		loginResult = user.loginUser(listUserConnected, user.getPassword() + "error");
+		assertEquals(2, loginResult);
+	}
+
+}

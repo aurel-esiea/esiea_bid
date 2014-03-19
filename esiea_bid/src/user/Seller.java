@@ -2,10 +2,13 @@ package user;
 
 import java.util.*;
 
+import esiea_bid.Bid;
+import esiea_bid.Product;
+
 public interface Seller {
-	public int createBid (int idProduct, double price, double reserverPrice);
-	public void publishBid (int bidId);
-	public void cancelBid(int idBid);
+	public void createBid(Product product, List<Bid> listBid, double price, double reservePrice, Date endDate);
+	public void publishBid (Bid bid);
+	public void cancelBid(Bid bid);
 	public void displaySellerBid();
 	public void showBuyerOffer();
 }

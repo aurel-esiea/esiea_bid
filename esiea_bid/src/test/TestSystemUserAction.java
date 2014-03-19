@@ -1,41 +1,38 @@
 package test;
 
 import static org.junit.Assert.*;
-
+import java.util.*;
 import org.junit.Before;
 import org.junit.Test;
-
-import esiea_bid.MemoryObject;
 import user.*;
 
 public class TestSystemUserAction {
 
 	private SystemUser user;
-	private MemoryObject memoryObject;
-	private int loginResult;
+	private List<Object> listUserConnected;
 	@Before
 	public void setUp() throws Exception {
-		memoryObject = new MemoryObject();
+		listUserConnected = new ArrayList<Object>();
 		user = new SystemUser("Dupont", "Thomas", "password");
 	}
 	
 	@Test
 	public void testSucessConnection() {
-		loginResult = user.loginUser(memoryObject, user.getPassword());
-		assertEquals(1, loginResult);
+		user.loginUser(listUserConnected, user.getPassword());
+		assertEquals(user, listUserConnected.get(0));
 	}
 
 	@Test
 	public void testAlreadyExistConnection() {
-		user.loginUser(memoryObject, user.getPassword());
-		loginResult = user.loginUser(memoryObject, user.getPassword());
-		assertEquals(0, loginResult);
+		user.loginUser(listUserConnected, user.getPassword());
+		user.loginUser(listUserConnected, user.getPassword());
+		assertNotEquals(user, listUserConnected.get(1));
 	}
 	
 	@Test
 	public void testFailConnection() {
-		loginResult = user.loginUser(memoryObject, user.getPassword() + "error");
-		assertEquals(2, loginResult);
+		user.loginUser(listUserConnected, user.getPassword() + "error");
+		assertNotEquals(user, listUserConnected.get(0));
 	}
 
 }
