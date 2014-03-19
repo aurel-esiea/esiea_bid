@@ -65,19 +65,6 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 
 	@Override
 	public void displayBid(List<Bid> listBid, List<Offer> listOffer) {
-		for (Offer offer : listOffer) {
-			if(offer.getBuyer().equals(this)){
-				Bid b = offer.getBid();
-				if(b.getBidState().equals(BidState.CANCELED)) {
-					System.out.println("Product description : " + b.getProduct().getDescription());
-					System.out.println("Product price : " + b.getPrice());
-					System.out.println("Bid end the : " + b.getEndDate());
-					if(offer.getBid().getPrice() >= b.getReservePrice())
-						System.out.println("Reserve price has been reached");
-				}
-			}
-		}
-		
 		for (Bid bid : listBid) {
 			if(bid.getBidState().equals(BidState.PUBLISHED))
 			{
