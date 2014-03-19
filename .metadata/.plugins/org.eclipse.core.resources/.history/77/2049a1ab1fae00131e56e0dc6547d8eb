@@ -1,9 +1,0 @@
-package esiea_bid;
-
-public class SystemUser extends AbstractUser implements Buyer, Seller {
-
-	public SystemUser (String nom, String prenom, String password)
-	{
-		super(nom, prenom, password);
-	}
-}

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testrun name="TestSellerAction" project="esiea_bid" tests="4" started="4" failures="0" errors="0" ignored="0">
-  <testsuite name="test.TestSellerAction" time="0.001">
-    <testcase name="testBidCancel" classname="test.TestSellerAction" time="0.001"/>
-    <testcase name="testBidCreationBadPrice" classname="test.TestSellerAction" time="0.0"/>
-    <testcase name="testBidPublish" classname="test.TestSellerAction" time="0.0"/>
-    <testcase name="testSucessBidCreation" classname="test.TestSellerAction" time="0.0"/>
-  </testsuite>
-</testrun>

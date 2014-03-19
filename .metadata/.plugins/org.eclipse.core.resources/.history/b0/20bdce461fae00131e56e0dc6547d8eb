@@ -1,9 +1,0 @@
-package esiea_bid;
-
-public class SystemUser extends AbstractUser {
-
-	public SystemUser ()
-	{
-		super();
-	}
-}

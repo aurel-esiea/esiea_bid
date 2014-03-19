@@ -7,7 +7,7 @@ import esiea_bid.Offer;
 
 public interface Buyer {
 	
-	public void displayBid();
+	public void displayBid(List<Bid> listBid, List<Offer> listOffer);
 	public void displayBuyerOffer();
 	public void doOffer(Bid bid, List<Offer> listOffer, double price);
 }

@@ -17,6 +17,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		this.firstName = firstName;
 		this.password = password;
 	}
+	
 	@Override
 	public void createBid(Product product,List<Bid> listBid,  double price, double reservePrice, Date endDate) {
 		if (price < 0)
@@ -45,12 +46,27 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	
 	@Override
 	public void cancelBid(Bid bid) {
-		bid.setBidState(BidState.CANCELED);
+		if(bid.getPrice() < bid.getReservePrice())
+		{	
+			bid.setBidState(BidState.CANCELED);
+		    System.out.println("Bid canceled");
+		}
+	    else 
+			System.out.println("Reserve price has been reached, unable to cancel this bid");
 	}
 
 	@Override
-	public void displayBid() {
-		
+	public void displayBid(List<Bid> listBid, List<Offer> listOffer) {
+		for (Bid bid : listBid) {
+			if(bid.getBidState().equals(BidState.PUBLISHED))
+			{
+				System.out.println("Product description : " + bid.getProduct().getDescription());
+				System.out.println("Product price : " + bid.getPrice());
+				System.out.println("Bid end the : " + bid.getEndDate());
+				if(bid.getPrice() == bid.getReservePrice())
+					System.out.println("Reserve price has been reached");
+			}
+		}
 	}
 
 	@Override
@@ -71,6 +87,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		{
 			Offer offer = new Offer(bid, price, this);
 			listOffer.add(offer);
+			bid.setPrice(price);
 			System.out.println("Offer created");		
 		}
 	}
