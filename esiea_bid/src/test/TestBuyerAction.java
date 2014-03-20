@@ -22,6 +22,7 @@ public class TestBuyerAction {
 	private static List<Offer> listOffer;
 	private static List<Bid> listBid;
 	private Bid bid;
+	private Offer offer;
 	private Product product1;
 	
 	@Before
@@ -32,6 +33,7 @@ public class TestBuyerAction {
 		user = new SystemUser("Dupont", "Thomas", "password");
 		user2 = new SystemUser("Durant", "Paul", "password");
 		bid = new Bid(product1, new Date(), 1000, 2000, user2);
+		offer = new Offer(bid, 1000, user);
 	}
 
 	@Test
@@ -63,9 +65,48 @@ public class TestBuyerAction {
 	}
 	
 	@Test
-	public void testDisplayBid() {
+	public void testDisplayBidSuccess() {
 		bid.setBidState(BidState.PUBLISHED);
-		//user2.displayBid();
-		assertTrue(listOffer.isEmpty());
+        listBid.add(bid);
+        List<Bid> visibleBids = user.displayBid(listBid, listOffer);
+		assertFalse(visibleBids.isEmpty());
+	}
+
+	@Test
+	public void testDisplayBidBadStateCreated() {
+		// bid belongs to user2
+		bid.setBidState(BidState.CREATED);
+        List<Bid> visibleBids = user.displayBid(listBid, listOffer);
+		assertTrue(visibleBids.isEmpty());
+	}
+	
+	@Test
+	public void testDisplayBidBadStateCanceled() {
+		// bid belongs to user2
+		bid.setBidState(BidState.CANCELED);
+        List<Bid> visibleBids = user.displayBid(listBid, listOffer);
+		assertTrue(visibleBids.isEmpty());
+	}
+	
+	@Test
+	public void testDisplayBidBadUserForOffer() {
+		bid.setPrice(1000);
+		bid.setReservePrice(100);
+		bid.setBidState(BidState.PUBLISHED);
+		user.doOffer(bid, listOffer, 1500);
+		bid.setBidState(BidState.CANCELED);
+        List<Bid> visibleBids = user2.displayBid(listBid, listOffer);
+		assertTrue(visibleBids.isEmpty());
+	}
+	
+	@Test
+	public void testDisplayBidSuccessOffer() {
+		bid.setPrice(1000);
+		bid.setReservePrice(100);
+		bid.setBidState(BidState.PUBLISHED);
+		user.doOffer(bid, listOffer, 1500);
+		bid.setBidState(BidState.CANCELED);
+        List<Bid> visibleBids = user.displayBid(listBid, listOffer);
+		assertFalse(visibleBids.isEmpty());
 	}
 }

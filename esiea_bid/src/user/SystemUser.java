@@ -1,5 +1,6 @@
 package user;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -64,30 +65,36 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	}
 
 	@Override
-	public void displayBid(List<Bid> listBid, List<Offer> listOffer) {
+	public List<Bid> displayBid(List<Bid> listBid, List<Offer> listOffer) {
+		List<Bid> visibleBids = new ArrayList<Bid>();
+		
 		for (Offer offer : listOffer) {
 			if(offer.getBuyer().equals(this)){
 				Bid b = offer.getBid();
 				if(b.getBidState().equals(BidState.CANCELED)) {
-					System.out.println("Product description : " + b.getProduct().getDescription());
-					System.out.println("Product price : " + b.getPrice());
-					System.out.println("Bid end the : " + b.getEndDate());
-					if(offer.getBid().getPrice() >= b.getReservePrice())
-						System.out.println("Reserve price has been reached");
+					visibleBids.add(b);
 				}
 			}
 		}
-		
-		for (Bid bid : listBid) {
-			if(bid.getBidState().equals(BidState.PUBLISHED))
-			{
-				System.out.println("Product description : " + bid.getProduct().getDescription());
-				System.out.println("Product price : " + bid.getPrice());
-				System.out.println("Bid end the : " + bid.getEndDate());
-				if(bid.getPrice() >= bid.getReservePrice())
-					System.out.println("Reserve price has been reached");
-			}
-		}
+
+        for (Bid bid : listBid) {
+            if(bid.getBidState().equals(BidState.PUBLISHED))
+            {
+                visibleBids.add(bid);
+            }
+        }
+        
+        /* OPTIONAL DISPLAY */
+        for (Bid bid : visibleBids) {
+			System.out.println("Product description : " + bid.getProduct().getDescription());
+			System.out.println("Product price : " + bid.getPrice());
+			System.out.println("Bid end the : " + bid.getEndDate());
+			if(bid.getPrice() >= bid.getReservePrice())
+				System.out.println("Reserve price has been reached");
+        }
+
+
+        return visibleBids;
 	}
 
 	@Override
