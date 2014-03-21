@@ -2,9 +2,9 @@ package user;
 
 import java.util.*;
 
-import esiea_bid.Bid;
-import esiea_bid.AlarmObserver;
-import esiea_bid.Product;
+import objects.Bid;
+import objects.Product;
+import alarm_time.AlarmObserver;
 
 public interface Seller {
 	public void createBid(Product product, List<Bid> listBid, double price, double reservePrice, Date endDate,AlarmObserver cancelObserver);

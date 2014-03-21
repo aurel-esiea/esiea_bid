@@ -1,0 +1,156 @@
+package user;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import alarm.Alarm;
+import esiea_bid.AlarmType;
+import esiea_bid.Bid;
+import esiea_bid.BidState;
+import esiea_bid.AlarmObserver;
+import esiea_bid.Offer;
+import esiea_bid.Product;
+
+
+public class SystemUser extends AbstractUser implements Buyer, Seller {
+
+	public SystemUser (String lastName, String firstName, String password)
+	{
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.password = password;
+	}
+	
+	@Override
+	public void createBid(Product product,List<Bid> listBid,  double price, double reservePrice, Date endDate, AlarmObserver cancelObserver) {
+		if (price < 0)
+		{
+			System.out.println("Negative Price");
+		}
+		else if(reservePrice < 0)
+		{
+			System.out.println("Negative Reserve price");
+		}
+		else if(price > reservePrice)
+		{
+			System.out.println("Reserve price is lower than price");
+		}
+		else
+		{
+			//try
+			Bid bid = new Bid(product ,new Date(), price, reservePrice, this, cancelObserver);
+			listBid.add(bid);
+		}
+	}
+
+	@Override
+	public void publishBid(Bid bid) {
+		bid.setBidState(BidState.PUBLISHED);
+	}
+	
+	@Override
+	public void cancelBid(Bid bid) {
+		if(bid.getPrice() < bid.getReservePrice())
+		{	
+			if(bid.getSeller().equals(this))
+			{
+				bid.setBidState(BidState.CANCELED);
+			    System.out.println("Bid canceled");
+			}
+			else
+			{
+				System.out.println("You don't are the seller, unable to cancel this bid");	
+			}	
+		}
+	    else 
+			System.out.println("Reserve price has been reached, unable to cancel this bid");
+	}
+
+	@Override
+	public List<Bid> displayBid(List<Bid> listBid, List<Offer> listOffer) {
+		List<Bid> visibleBids = new ArrayList<Bid>();
+		
+		for (Offer offer : listOffer) {
+			if(offer.getBuyer().equals(this)){
+				Bid b = offer.getBid();
+				if(b.getBidState().equals(BidState.CANCELED)) {
+					visibleBids.add(b);
+				}
+			}
+		}
+
+        for (Bid bid : listBid) {
+            if(bid.getBidState().equals(BidState.PUBLISHED))
+            {
+                visibleBids.add(bid);
+            }
+        }
+        
+        /* OPTIONAL DISPLAY */
+        for (Bid bid : visibleBids) {
+			System.out.println("Product description : " + bid.getProduct().getDescription());
+			System.out.println("Product price : " + bid.getPrice());
+			System.out.println("Bid end the : " + bid.getEndDate());
+			if(bid.getPrice() >= bid.getReservePrice())
+				System.out.println("Reserve price has been reached");
+        }
+
+
+        return visibleBids;
+	}
+
+	@Override
+	public void doOffer(Bid bid, List<Offer> listOffer, double price, AlarmObserver alarmObserver) {
+		if (price <= bid.getPrice())
+		{
+			System.out.println("Offer price lower than current bid price");		
+		}
+		else if(!bid.getBidState().equals(BidState.PUBLISHED))
+		{
+			System.out.println("Bid is not in state published");		
+		}
+		else if(bid.getSeller().equals(this))
+		{
+			System.out.println("A seller cannot do an offer on his own bid");		
+		}
+		else
+		{
+			Offer offer = new Offer(bid, price, this, alarmObserver);
+			listOffer.add(offer);
+			offer.notifyObserver();
+			offer.getBid().setFirstOffer(false);
+			bid.setPrice(price);
+			System.out.println("Offer created");		
+		}
+	}
+
+	@Override
+	public void displaySellerBid() {
+		
+	}
+	
+	@Override
+	public void showBuyerOffer() {
+		
+	}
+	
+	@Override
+	public void displayBuyerOffer() {
+		
+	}
+
+	@Override
+	public void createAlarm(AlarmType alarmType, Bid bid, HashSet<Alarm> listAlarm) {
+		Alarm alarm = new Alarm(alarmType, bid, this);
+		listAlarm.add(alarm);
+	}
+
+	@Override
+	public void deleteAlarm(AlarmType alarmType, Bid bid, HashSet<Alarm> listAlarm) {
+		// TODO Auto-generated method stub
+		
+	}	
+}

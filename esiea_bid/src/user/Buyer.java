@@ -1,16 +1,18 @@
 package user;
 
+import java.util.HashSet;
 import java.util.List;
 
-import esiea_bid.Alarm;
-import esiea_bid.AlarmType;
-import esiea_bid.Bid;
-import esiea_bid.Offer;
+import objects.Bid;
+import objects.Offer;
+import alarm_time.Alarm;
+import alarm_time.AlarmObserver;
+import alarm_time.AlarmType;
 
 public interface Buyer {
 	public List<Bid> displayBid(List<Bid> listBid, List<Offer> listOffer);
 	public void displayBuyerOffer();
-	public void doOffer(Bid bid, List<Offer> listOffer, double price);
-	public void enableAlarm(AlarmType alarmType);
-	public void disableAlarm(AlarmType alarmType);
+	public void doOffer(Bid bid, List<Offer> listOffer, double price, AlarmObserver alarmObserver);
+	public void createAlarm(AlarmType alarmType, Bid bid, HashSet<Alarm> listAlarm);
+	public void deleteAlarm(AlarmType alarmType, Bid bid, HashSet<Alarm> listAlarm);
 }

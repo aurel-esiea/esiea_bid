@@ -1,0 +1,78 @@
+package esiea_bid;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
+
+import user.SystemUser;
+
+public class AlarmObserver implements Observer{
+	 
+	private BidState state;
+	private List<Bid> listBid;
+	private List<Offer> listOffer;
+	public AlarmObserver(BidState state, List<Bid> listBid, List<Offer> listOffer, HashSet<Alarm> listAlarm)
+	{
+		this.state = state;
+		this.listBid = listBid;
+		this.listOffer = listOffer;
+	}
+	
+	@Override
+	public void update(Observable obs, Object arg1) {
+		List<Alarm> listAlarm;
+		HashSet<SystemUser> listUserToNotify = new HashSet<SystemUser>();
+		for (Offer offer : listOffer)
+		{
+			if(arg1.equals(offer.getBid()))
+			{
+				listUserToNotify.add(offer.getBuyer());
+			}
+			if(offer  == obs)
+			{
+				listAlarm = offer.getBuyer().getListAlarm();
+				for (Alarm alarm : listAlarm)
+				{
+					
+					if(alarm.getAlarmType().equals(AlarmType.BID_CANCELED) && alarm.getAlarmState().equals(AlarmState.ENABLE))
+					{
+						if(arg1.equals(BidState.CANCELED))
+							System.out.println("Alarm : Bid has been canceled");
+					}
+					
+					
+					//Check alarm RESERVE_PRICE_REACHED state, and if reserve price has been reached. 
+					//If true, notify user who have done an offer on this bid
+					if(alarm.getAlarmType().equals(AlarmType.RESERVE_PRICE_REACHED) && alarm.getAlarmState().equals(AlarmState.ENABLE))
+					{
+						if(offer.getPrice() >= offer.getBid().getReservePrice() && !offer.getBid().isReservePriceReached())
+						{
+							offer.getBid().setReservePriceReached(true);
+							for (SystemUser user : listUserToNotify)
+								System.out.println("Alarm to " + user.getFirstName() + ": reserve Price on product " + offer.getBid().getProduct().getDescription() + " is reached");
+						}	
+					}
+					
+					
+					if(alarm.getAlarmType().equals(AlarmType.BEST_OFFER) && alarm.getAlarmState().equals(AlarmState.ENABLE))
+					{
+						System.out.println(offer.getPrice());
+						System.out.println(offer.getBid().getPrice());	
+						if(offer.getPrice() < offer.getBid().getPrice())
+						{
+							System.out.println("Alarm : User made better offer");
+						}
+					}
+					
+					
+					if(alarm.getAlarmType().equals(AlarmType.BUYER_OFFER) && alarm.getAlarmState().equals(AlarmState.ENABLE))
+					{
+						System.out.println("Alarm to seller : User do an offer on your bid");
+					}
+				}
+			}
+		}
+	}	
+}

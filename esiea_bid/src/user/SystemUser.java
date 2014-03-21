@@ -6,14 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import esiea_bid.Alarm;
-import esiea_bid.AlarmState;
-import esiea_bid.AlarmType;
-import esiea_bid.Bid;
-import esiea_bid.BidState;
-import esiea_bid.AlarmObserver;
-import esiea_bid.Offer;
-import esiea_bid.Product;
+import objects.Bid;
+import objects.BidState;
+import objects.Offer;
+import objects.Product;
+import alarm_time.Alarm;
+import alarm_time.AlarmObserver;
+import alarm_time.AlarmType;
 
 
 public class SystemUser extends AbstractUser implements Buyer, Seller {
@@ -23,11 +22,6 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.password = password;
-		this.listAlarm = new ArrayList<Alarm>();
-		this.listAlarm.add(new Alarm(AlarmState.DISABLE, AlarmType.BID_CANCELED));
-		this.listAlarm.add(new Alarm(AlarmState.DISABLE, AlarmType.RESERVE_PRICE_REACHEABLE));
-		this.listAlarm.add(new Alarm(AlarmState.DISABLE, AlarmType.BEST_OFFER));
-		this.listAlarm.add(new Alarm(AlarmState.ENABLE, AlarmType.BUYER_OFFER));
 	}
 	
 	@Override
@@ -109,8 +103,8 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	}
 
 	@Override
-	public void doOffer(Bid bid, List<Offer> listOffer, double price) {
-		if (price < bid.getPrice())
+	public void doOffer(Bid bid, List<Offer> listOffer, double price, AlarmObserver alarmObserver) {
+		if (price <= bid.getPrice())
 		{
 			System.out.println("Offer price lower than current bid price");		
 		}
@@ -124,8 +118,10 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		}
 		else
 		{
-			Offer offer = new Offer(bid, price, this);
+			Offer offer = new Offer(bid, price, this, alarmObserver);
 			listOffer.add(offer);
+			offer.notifyObserver();
+			offer.getBid().setFirstOffer(false);
 			bid.setPrice(price);
 			System.out.println("Offer created");		
 		}
@@ -147,24 +143,14 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	}
 
 	@Override
-	public void enableAlarm(AlarmType alarmType) {
-		for(Alarm alarm : this.listAlarm)
-		{
-			if(alarm.getAlarmType().equals(alarmType))
-			{
-				alarm.setAlarmState(AlarmState.ENABLE);
-			}
-		}
-		
+	public void createAlarm(AlarmType alarmType, Bid bid, HashSet<Alarm> listAlarm) {
+		Alarm alarm = new Alarm(alarmType, bid, this);
+		listAlarm.add(alarm);
 	}
 
 	@Override
-	public void disableAlarm(AlarmType alarmType) {
-		for(Alarm alarm : this.listAlarm)
-		{
-			if(alarm.getAlarmType().equals(alarmType))
-				alarm.setAlarmState(AlarmState.DISABLE);
-		}		
-	}
-	
+	public void deleteAlarm(AlarmType alarmType, Bid bid, HashSet<Alarm> listAlarm) {
+		// TODO Auto-generated method stub
+		
+	}	
 }

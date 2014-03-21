@@ -1,0 +1,48 @@
+package objects;
+
+
+import java.util.Observable;
+
+import alarm_time.AlarmObserver;
+import user.SystemUser;
+
+public class Offer extends Observable {
+	
+	private Bid bid;
+	private double price;
+	private SystemUser buyer;
+	
+	public Offer (Bid bid, double price, SystemUser buyer, AlarmObserver alarmObserver){
+		this.bid = bid;
+		this.price = price;
+		this.buyer = buyer;
+		this.addObserver(alarmObserver);
+	}
+	
+	public void notifyObserver(){
+		setChanged();
+		notifyObservers(this.bid);
+	}
+	
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public Bid getBid() {
+		return bid;
+	}
+	public void setBid(Bid bid) {
+		this.bid = bid;
+	}
+
+	public SystemUser getBuyer() {
+		return buyer;
+	}
+
+	public void setBuyer(SystemUser buyer) {
+		this.buyer = buyer;
+	}
+	
+}

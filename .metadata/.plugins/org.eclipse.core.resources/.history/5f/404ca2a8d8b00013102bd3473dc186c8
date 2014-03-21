@@ -1,0 +1,23 @@
+package esiea_bid;
+
+import user.SystemUser;
+
+public class Alarm {
+	
+	private AlarmType alarmType;
+	private Bid bid;
+	private SystemUser user;
+	
+	public Alarm(AlarmState alarmState, AlarmType alarmType){
+		this.alarmState = alarmState;
+		this.alarmType =alarmType;
+	}
+	
+	public AlarmState getAlarmState() {
+		return alarmState;
+	}
+	public void setAlarmState(AlarmState alarmState) {
+		this.alarmState = alarmState;
+	}
+
+}

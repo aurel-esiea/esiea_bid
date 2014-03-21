@@ -1,0 +1,54 @@
+package esiea_bid;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
+
+import user.SystemUser;
+
+public class AlarmObserver implements Observer{
+	 
+	private BidState state;
+	private List<Bid> listBid;
+	private List<Offer> listOffer;
+	private HashSet<Alarm> listAlarm;
+
+	public AlarmObserver(BidState state, List<Bid> listBid, List<Offer> listOffer, HashSet<Alarm> listAlarm)
+	{
+		this.state = state;
+		this.listBid = listBid;
+		this.listOffer = listOffer;
+		this.listAlarm = listAlarm;
+	}
+	
+	@Override
+	public void update(Observable obs, Object arg1) {
+		for (Offer offer : listOffer)
+		{
+			if(arg1.equals(offer.getBid()))
+			{
+				listUserToNotify.add(offer.getBuyer());
+			}
+			if(offer == obs)
+			{
+				//if(arg1.equals(BidState.CANCELED))
+				//	System.out.println("Alarm : Bid has been canceled");
+					
+				if(offer.getPrice() >= offer.getBid().getReservePrice() && !offer.getBid().isReservePriceReached())
+				{
+					offer.getBid().setReservePriceReached(true);
+					for (Alarm alarm : listAlarm)
+						System.out.println("Alarm to " + user.getFirstName() + ": reserve Price on product " + offer.getBid().getProduct().getDescription() + " is reached");
+				}	
+				if(offer.getPrice() < offer.getBid().getPrice())
+				{
+					System.out.println("Alarm : User made better offer");
+				}
+				
+				System.out.println("Alarm to seller : User do an offer on your bid");
+			}
+		}	
+	}
+}

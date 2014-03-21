@@ -1,0 +1,81 @@
+package esiea_bid;
+
+import java.util.Date;
+import java.util.Observable;
+
+import user.SystemUser;
+
+public class Bid extends Observable{
+
+	private Date endDate;
+	private BidState bidState;
+	private double price;
+	private double reservePrice;
+	private Product product;
+	private SystemUser seller;
+	private boolean reservePriceReached;
+	
+	public Bid (Product product, Date endDate, double price, double reservePrice, SystemUser seller, AlarmObserver alarmObserver){
+		this.setProduct(product);
+		this.endDate = endDate;
+		this.price = price;
+		this.reservePrice = reservePrice;
+		this.seller = seller;
+		this.bidState = BidState.CREATED;
+		this.reservePriceReached
+		this.addObserver(alarmObserver);
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public Object getBidState() {
+		return bidState;
+	}
+
+	public void setBidState(BidState bidState) {
+		this.bidState = bidState;
+		//setChanged();
+	    //notifyObservers(this.bidState);
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+		//setChanged();
+	    //notifyObservers(this.bidState);
+	}
+
+	public double getReservePrice() {
+		return reservePrice;
+	}
+
+	public void setReservePrice(double reservePrice) {
+		this.reservePrice = reservePrice;
+	}
+
+	public SystemUser getSeller() {
+		return seller;
+	}
+
+	public void setSeller(SystemUser seller) {
+		this.seller = seller;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+	
+}

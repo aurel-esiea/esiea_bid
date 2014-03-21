@@ -4,66 +4,70 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+
+import objects.Bid;
+import objects.BidState;
+import objects.Offer;
+import objects.Product;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import alarm_time.Alarm;
+import alarm_time.AlarmObserver;
 import user.SystemUser;
-import esiea_bid.Bid;
-import esiea_bid.BidState;
-import esiea_bid.AlarmObserver;
-import esiea_bid.Offer;
-import esiea_bid.Product;
 
 public class TestSellerAction {
 
-	private SystemUser user;
-	private SystemUser user2;
+	private SystemUser user, user2;
 	private static List<Offer> listOffer;
 	private static List<Bid> listBid;
 	private Bid bid;
 	private Product product1;
-	private AlarmObserver cancelObserver;
-	
+	private AlarmObserver alarmObserver;
+	private static HashSet<Alarm> listAlarm;
+
 	@Before
 	public void setUp() throws Exception {
 		listOffer = new ArrayList<Offer>();
 		listBid = new ArrayList<Bid>();
-		cancelObserver = new AlarmObserver(BidState.CANCELED, listBid, listOffer);
+		listAlarm = new HashSet<Alarm>();
+		alarmObserver = new AlarmObserver(BidState.CANCELED, listBid, listOffer, listAlarm);
 		product1 = new Product("Blue Car");
 		user = new SystemUser("Dupont", "Thomas", "password");
 		user2 = new SystemUser("Durant", "Paul", "password");
-		bid = new Bid(product1, new Date(), 1000, 2000, user, cancelObserver);
+		bid = new Bid(product1, new Date(), 1000, 2000, user, alarmObserver);
 	}
 
 	@Test
 	public void testSucessBidCreation() {
-		user.createBid(product1, listBid, 1000.00, 3000.00, new Date(), cancelObserver);
-		assertTrue(!listBid.isEmpty());
+		user.createBid(product1, listBid, 1000.00, 3000.00, new Date(), alarmObserver);
+		assertFalse(listBid.isEmpty());
 	}
 	
 	@Test
 	public void testBidCreationNegativePrice() {
-		user.createBid(product1, listBid, -1000.00, 3000.00, new Date(), cancelObserver);
+		user.createBid(product1, listBid, -1000.00, 3000.00, new Date(), alarmObserver);
 		assertTrue(listBid.isEmpty());
 	}
 
 	@Test
 	public void testBidCreationBadReservePrice() {
-		user.createBid(product1, listBid, 2000.00, 1000.00, new Date(), cancelObserver);
+		user.createBid(product1, listBid, 2000.00, 1000.00, new Date(), alarmObserver);
 		assertTrue(listBid.isEmpty());
 	}
 	
 	@Test
 	public void testBidCreationNegativeReservePrice() {
-		user.createBid(product1, listBid, 2000.00, -1000.00, new Date(), cancelObserver);
+		user.createBid(product1, listBid, 2000.00, -1000.00, new Date(), alarmObserver);
 		assertTrue(listBid.isEmpty());
 	}
 	
 	@Test
 	public void testBidCreationBadDate() {
-		user.createBid(product1, listBid, 1000.00, 3000.00, new Date(), cancelObserver);
+		user.createBid(product1, listBid, 1000.00, 3000.00, new Date(), alarmObserver);
 		assertTrue(listBid.isEmpty());
 	}
 	
@@ -76,7 +80,7 @@ public class TestSellerAction {
 	@Test
 	public void testBidCancelBadUser() {
 		bid.setBidState(BidState.PUBLISHED);
-		user2.doOffer(bid, listOffer, 1500.00);
+		user2.doOffer(bid, listOffer, 1500.00, alarmObserver);
 		user2.cancelBid(bid);
 		assertEquals(BidState.PUBLISHED, bid.getBidState());
 	}
@@ -84,7 +88,7 @@ public class TestSellerAction {
 	@Test
 	public void testBidCancelReservePriceNotReached() {
 		bid.setBidState(BidState.PUBLISHED);
-		user2.doOffer(bid, listOffer, 1500.00);
+		user2.doOffer(bid, listOffer, 1500.00, alarmObserver);
 		user.cancelBid(bid);
 		assertEquals(BidState.CANCELED, bid.getBidState());
 	}
@@ -92,7 +96,7 @@ public class TestSellerAction {
 	@Test
 	public void testBidCancelReservePriceReached() {
 		bid.setBidState(BidState.PUBLISHED);
-		user2.doOffer(bid, listOffer, 2500.00);
+		user2.doOffer(bid, listOffer, 2500.00, alarmObserver);
 		user.cancelBid(bid);
 		assertEquals(BidState.PUBLISHED, bid.getBidState());
 	}	
