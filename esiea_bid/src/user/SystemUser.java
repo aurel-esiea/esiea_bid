@@ -2,10 +2,16 @@ package user;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import esiea_bid.Alarm;
+import esiea_bid.AlarmState;
+import esiea_bid.AlarmType;
 import esiea_bid.Bid;
 import esiea_bid.BidState;
+import esiea_bid.AlarmObserver;
 import esiea_bid.Offer;
 import esiea_bid.Product;
 
@@ -17,10 +23,15 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.password = password;
+		this.listAlarm = new ArrayList<Alarm>();
+		this.listAlarm.add(new Alarm(AlarmState.DISABLE, AlarmType.BID_CANCELED));
+		this.listAlarm.add(new Alarm(AlarmState.DISABLE, AlarmType.RESERVE_PRICE_REACHEABLE));
+		this.listAlarm.add(new Alarm(AlarmState.DISABLE, AlarmType.BEST_OFFER));
+		this.listAlarm.add(new Alarm(AlarmState.ENABLE, AlarmType.BUYER_OFFER));
 	}
 	
 	@Override
-	public void createBid(Product product,List<Bid> listBid,  double price, double reservePrice, Date endDate) {
+	public void createBid(Product product,List<Bid> listBid,  double price, double reservePrice, Date endDate, AlarmObserver cancelObserver) {
 		if (price < 0)
 		{
 			System.out.println("Negative Price");
@@ -36,7 +47,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		else
 		{
 			//try
-			Bid bid = new Bid(product ,new Date(), price, reservePrice, this);
+			Bid bid = new Bid(product ,new Date(), price, reservePrice, this, cancelObserver);
 			listBid.add(bid);
 		}
 	}
@@ -133,6 +144,27 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	@Override
 	public void displayBuyerOffer() {
 		
+	}
+
+	@Override
+	public void enableAlarm(AlarmType alarmType) {
+		for(Alarm alarm : this.listAlarm)
+		{
+			if(alarm.getAlarmType().equals(alarmType))
+			{
+				alarm.setAlarmState(AlarmState.ENABLE);
+			}
+		}
+		
+	}
+
+	@Override
+	public void disableAlarm(AlarmType alarmType) {
+		for(Alarm alarm : this.listAlarm)
+		{
+			if(alarm.getAlarmType().equals(alarmType))
+				alarm.setAlarmState(AlarmState.DISABLE);
+		}		
 	}
 	
 }

@@ -1,0 +1,26 @@
+package esiea_bid;
+
+import java.util.Observable;
+import java.util.Observer;
+
+public class CancelObserver implements Observer{
+	 
+	private BidState state;
+	public CancelObserver(BidState state)
+	{
+		this.state = state;
+	}
+	
+	@Override
+	public void update(Observable state, Object arg1) {
+		// TODO Auto-generated method stub
+		System.out.println("Observeur activé");
+		System.out.println("state" + state.toString());
+		System.out.println("arg1" + arg1.toString());
+		if(this.state.equals(state))
+		{
+			
+		}
+	}
+
+}

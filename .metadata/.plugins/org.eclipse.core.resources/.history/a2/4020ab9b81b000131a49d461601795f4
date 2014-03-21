@@ -1,0 +1,46 @@
+package user;
+
+import java.util.List;
+
+import esiea_bid.Alarm;
+import esiea_bid.Offer;
+
+public abstract class AbstractUser {
+		
+	protected String lastName;
+	protected String firstName;
+	protected String password;
+	protected static List<Alarm> listAlarm;
+
+
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public static List<Alarm> getListAlert() {
+		return listAlert;
+	}
+
+	public static void setListAlert(List<Alarm> listAlert) {
+		AbstractUser.listAlert = listAlert;
+	}
+}

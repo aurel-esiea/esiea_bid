@@ -1,50 +1,47 @@
 package user;
 
 import java.util.List;
+import java.util.Set;
+
+import esiea_bid.Alarm;
+import esiea_bid.Offer;
 
 public abstract class AbstractUser {
 		
 	protected String lastName;
 	protected String firstName;
 	protected String password;
+	protected List<Alarm> listAlarm;
+	protected Set listAlarmMessage;
 
-	public int loginUser(List<Object> listUserConnected, String password)
-	{
-		if (this.password.equals(password))
-		{
-			if(listUserConnected.contains(this))
-			{
-				System.out.println("User " + this.lastName + " already connected");
-				return 0;
-			}
-			else
-			{
-				listUserConnected.add(this);
-				System.out.println("Connected");		
-				return 1;
-			}
-		}
-		else
-			System.out.println("Connection refused");
-			return 2;
-	}
-
-	public String getNom() {
-		return lastName;
-	}
-	public void setNom(String lastName) {
-		this.lastName = lastName;
-	}
-	public String getPrenom() {
-		return firstName;
-	}
-	public void setPrenom(String firstName) {
-		this.firstName = firstName;
-	}
 	public String getPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public List<Alarm> getListAlarm() {
+		return listAlarm;
+	}
+
+	public void setListAlarm(List<Alarm> listAlarm) {
+		this.listAlarm = listAlarm;
 	}
 }

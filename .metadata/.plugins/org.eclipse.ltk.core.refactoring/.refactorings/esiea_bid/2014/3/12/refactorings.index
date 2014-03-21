@@ -10,3 +10,7 @@
 1395187338255	Encapsulate field 'product'
 1395187352761	Encapsulate field 'price'
 1395188212150	Encapsulate field 'buyer'
+1395354637652	Rename type 'alert'
+1395354713272	Delete element
+1395354736005	Rename type 'Alert'
+1395362426651	Rename type 'CancelObserver'

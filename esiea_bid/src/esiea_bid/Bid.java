@@ -1,10 +1,11 @@
 package esiea_bid;
 
 import java.util.Date;
+import java.util.Observable;
 
 import user.SystemUser;
 
-public class Bid {
+public class Bid extends Observable{
 
 	private Date endDate;
 	private BidState bidState;
@@ -13,13 +14,14 @@ public class Bid {
 	private Product product;
 	private SystemUser seller;
 	
-	public Bid (Product product, Date endDate, double price, double reservePrice, SystemUser seller){
+	public Bid (Product product, Date endDate, double price, double reservePrice, SystemUser seller, AlarmObserver cancelObserver){
 		this.setProduct(product);
 		this.endDate = endDate;
 		this.price = price;
 		this.reservePrice = reservePrice;
 		this.seller = seller;
 		this.bidState = BidState.CREATED;
+		this.addObserver(cancelObserver);
 	}
 
 	public Date getEndDate() {
@@ -36,6 +38,8 @@ public class Bid {
 
 	public void setBidState(BidState bidState) {
 		this.bidState = bidState;
+		setChanged();
+	    notifyObservers(this.bidState);
 	}
 
 	public double getPrice() {
@@ -44,6 +48,8 @@ public class Bid {
 
 	public void setPrice(double price) {
 		this.price = price;
+		setChanged();
+	    notifyObservers(this.bidState);
 	}
 
 	public double getReservePrice() {

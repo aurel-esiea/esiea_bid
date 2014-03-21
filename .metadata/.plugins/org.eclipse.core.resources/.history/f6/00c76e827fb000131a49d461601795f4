@@ -1,0 +1,66 @@
+package user;
+
+import java.util.List;
+
+import esiea_bid.Alert;
+import esiea_bid.Offer;
+
+public abstract class AbstractUser {
+		
+	protected String lastName;
+	protected String firstName;
+	protected String password;
+	protected static List<Alert> listAlert;
+
+	public int loginUser(List<Object> listUserConnected, String password)
+	{
+		if (this.password.equals(password))
+		{
+			if(listUserConnected.contains(this))
+			{
+				System.out.println("User " + this.lastName + " already connected");
+				return 0;
+			}
+			else
+			{
+				listUserConnected.add(this);
+				System.out.println("Connected");		
+				return 1;
+			}
+		}
+		else
+			System.out.println("Connection refused");
+			return 2;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public static List<Alert> getListAlert() {
+		return listAlert;
+	}
+
+	public static void setListAlert(List<Alert> listAlert) {
+		AbstractUser.listAlert = listAlert;
+	}
+}

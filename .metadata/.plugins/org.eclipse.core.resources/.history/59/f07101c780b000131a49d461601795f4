@@ -1,0 +1,7 @@
+package esiea_bid;
+
+public class Alarm {
+	
+	private AlarmState alarmState;
+	private AlarmType alarmType;
+}
