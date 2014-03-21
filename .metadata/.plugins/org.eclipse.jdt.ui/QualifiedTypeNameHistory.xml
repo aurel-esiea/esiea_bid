@@ -24,4 +24,5 @@
 <fullyQualifiedTypeName name="user.SystemUser"/>
 <fullyQualifiedTypeName name="esiea_bid.AlarmType"/>
 <fullyQualifiedTypeName name="esiea_bid.BidState"/>
+<fullyQualifiedTypeName name="alarm_time.TimeManager"/>
 </qualifiedTypeNameHistroy>
