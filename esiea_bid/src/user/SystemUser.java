@@ -24,6 +24,16 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		this.password = password;
 	}
 	
+	/**  
+	 * Create a new bid and adds it to the list of bids
+	 * @param Product product
+	 * @param List<Bid> listBid
+	 * @param double price
+	 * @param double reservePrice
+	 * @param Date endDate
+	 * @param AlarmObserver cancelObserver
+	 *
+	 */
 	@Override
 	public void createBid(Product product,List<Bid> listBid,  double price, double reservePrice, Date endDate, AlarmObserver cancelObserver) {
 		if (price < 0)
@@ -46,11 +56,21 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		}
 	}
 
+	/**  
+	 * Publish an unpublished bid
+	 * @param Bid bid
+	 *
+	 */
 	@Override
 	public void publishBid(Bid bid) {
 		bid.setBidState(BidState.PUBLISHED);
 	}
 	
+	/**  
+	 * Cancel a bid if the reserve price is not reached
+	 * @param Bid listBid
+	 * 
+	 */
 	@Override
 	public void cancelBid(Bid bid) {
 		if(bid.getPrice() < bid.getReservePrice())
@@ -69,6 +89,13 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 			System.out.println("Reserve price has been reached, unable to cancel this bid");
 	}
 
+	/**  
+	 * Display all visible bids for a given user 
+	 * @param List<Bid> listBid
+	 * @param List<Offer> listOffer
+	 * @return List<Bid> visibleBids
+	 *
+	 */
 	@Override
 	public List<Bid> displayBid(List<Bid> listBid, List<Offer> listOffer) {
 		List<Bid> visibleBids = new ArrayList<Bid>();
@@ -102,6 +129,14 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
         return visibleBids;
 	}
 
+	/**  
+	 * Create an offer on a published bid 
+	 * @param Bid bid
+	 * @param List<Offer> listOffer
+	 * @param double price
+	 * @param AlarmObserver alarmObserver
+	 *
+	 */
 	@Override
 	public void doOffer(Bid bid, List<Offer> listOffer, double price, AlarmObserver alarmObserver) {
 		if (price <= bid.getPrice())
@@ -127,6 +162,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		}
 	}
 
+	
 	@Override
 	public void displaySellerBid() {
 		
@@ -142,6 +178,13 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		
 	}
 
+	/**  
+	 * Create an alarm on a bid 
+	 * @param AlarmType alarmType
+	 * @param Bid bid
+	 * @param HashSet<Alarm> listAlarm
+	 *
+	 */
 	@Override
 	public void createAlarm(AlarmType alarmType, Bid bid, HashSet<Alarm> listAlarm) {
 		Alarm alarm = new Alarm(alarmType, bid, this);
