@@ -1,11 +1,5 @@
 package user;
 
-import java.util.List;
-import java.util.Set;
-
-import objects.Offer;
-import alarm_time.Alarm;
-
 public abstract class AbstractUser {
 		
 	protected String lastName;

@@ -24,17 +24,17 @@ public class TestSellerAction {
 	private SystemUser user, user2;
 	private static List<Offer> listOffer;
 	private static List<Bid> listBid;
+	private static HashSet<Alarm> listAlarm;
 	private Bid bid;
 	private Product product1;
 	private AlarmObserver alarmObserver;
-	private static HashSet<Alarm> listAlarm;
 
 	@Before
 	public void setUp() throws Exception {
-		listOffer = new ArrayList<Offer>();
 		listBid = new ArrayList<Bid>();
+		listOffer = new ArrayList<Offer>();
 		listAlarm = new HashSet<Alarm>();
-		alarmObserver = new AlarmObserver(BidState.CANCELED, listBid, listOffer, listAlarm);
+		alarmObserver = new AlarmObserver(listAlarm);
 		product1 = new Product("Blue Car");
 		user = new SystemUser("Dupont", "Thomas", "password");
 		user2 = new SystemUser("Durant", "Paul", "password");
@@ -100,12 +100,9 @@ public class TestSellerAction {
 		user.cancelBid(bid);
 		assertEquals(BidState.PUBLISHED, bid.getBidState());
 	}	
-	
-
-
 
 	@Test
-	public void displaySellerBidSuccess() {
+	public void testDisplaySellerBidSuccess() {
 		bid.setSeller(user);
 		bid.setBidState(BidState.PUBLISHED);
 		listBid.add(bid);
@@ -114,13 +111,13 @@ public class TestSellerAction {
 	}
 
 	@Test
-	public void displaySellerBidEmptyList() {
+	public void testDisplaySellerBidEmptyList() {
 		List<Bid> sellerBid = user.displaySellerBid(listBid);
 		assertTrue(sellerBid.isEmpty());
 	}
 
 	@Test
-	public void displaySellerBidBadUser() {
+	public void testDisplaySellerBidBadUser() {
 		bid.setSeller(user);
 		bid.setBidState(BidState.PUBLISHED);
 		listBid.add(bid);
@@ -128,9 +125,8 @@ public class TestSellerAction {
 		assertTrue(sellerBid.isEmpty());
 	}
 
-
 	@Test
-	public void showBuyerOfferSuccess() {
+	public void testShowBuyerOfferSuccess() {
 		bid.setSeller(user);
 		bid.setBidState(BidState.PUBLISHED);
 		user2.doOffer(bid, listOffer, 3000, alarmObserver);
@@ -140,7 +136,7 @@ public class TestSellerAction {
 	}
 
 	@Test
-	public void showBuyerOfferBadUser() {
+	public void testShowBuyerOfferBadUser() {
 		bid.setSeller(user);
 		bid.setBidState(BidState.PUBLISHED);
 		listBid.add(bid);
@@ -150,7 +146,7 @@ public class TestSellerAction {
 	}
 
 	@Test
-	public void showBuyerOfferEmptyList() {
+	public void testShowBuyerOfferEmptyList() {
 		List<Offer> buyerOffer = user.showBuyerOffer(listOffer);
 		assertTrue(buyerOffer.isEmpty());
 	}

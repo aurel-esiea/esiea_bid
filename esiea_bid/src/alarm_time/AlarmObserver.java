@@ -1,28 +1,18 @@
 package alarm_time;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Set;
-
 import objects.Bid;
 import objects.BidState;
 import objects.Offer;
-import user.SystemUser;
 
 public class AlarmObserver implements Observer{
 	 
-	private BidState state;
-	private List<Bid> listBid;
-	private List<Offer> listOffer;
 	private HashSet<Alarm> listAlarm;
 
-	public AlarmObserver(BidState state, List<Bid> listBid, List<Offer> listOffer, HashSet<Alarm> listAlarm)
+	public AlarmObserver(HashSet<Alarm> listAlarm)
 	{
-		this.state = state;
-		this.listBid = listBid;
-		this.listOffer = listOffer;
 		this.listAlarm = listAlarm;
 	}
 	

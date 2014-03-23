@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import alarm_time.Alarm;
 import alarm_time.AlarmObserver;
+import alarm_time.AlarmType;
 import user.SystemUser;
 
 public class TestBuyerAction {
@@ -26,22 +27,20 @@ public class TestBuyerAction {
 	private static List<Bid> listBid;
 	private static HashSet<Alarm> listAlarm;
 	private Bid bid;
-	private Offer offer;
 	private Product product1;
 	private AlarmObserver alarmObserver;
 
-	
 	@Before
 	public void setUp() throws Exception {
 		listBid = new ArrayList<Bid>();
 		listOffer = new ArrayList<Offer>();
 		listAlarm = new HashSet<Alarm>();
-		alarmObserver = new AlarmObserver(BidState.CANCELED, listBid, listOffer, listAlarm);
+		alarmObserver = new AlarmObserver(listAlarm);
 		product1 = new Product("Blue Car");
 		user = new SystemUser("Dupont", "Thomas", "password");
 		user2 = new SystemUser("Durant", "Paul", "password");
 		bid = new Bid(product1, new Date(), 1000, 2000, user2, alarmObserver);
-		offer = new Offer(bid, 1000, user, alarmObserver);
+        listBid.add(bid);
 	}
 
 	@Test
@@ -74,15 +73,13 @@ public class TestBuyerAction {
 	
 	@Test
 	public void testDisplayBidSuccess() {
-		bid.setBidState(BidState.PUBLISHED);
-        listBid.add(bid);
+		user2.publishBid(bid);
         List<Bid> visibleBids = user.displayBid(listBid, listOffer);
 		assertFalse(visibleBids.isEmpty());
 	}
 
 	@Test
 	public void testDisplayBidBadStateCreated() {
-		// bid belongs to user2
 		bid.setBidState(BidState.CREATED);
         List<Bid> visibleBids = user.displayBid(listBid, listOffer);
 		assertTrue(visibleBids.isEmpty());
@@ -90,55 +87,83 @@ public class TestBuyerAction {
 	
 	@Test
 	public void testDisplayBidBadStateCanceled() {
-		// bid belongs to user2
-		bid.setBidState(BidState.CANCELED);
+		user2.publishBid(bid);
+		user2.cancelBid(bid);
         List<Bid> visibleBids = user.displayBid(listBid, listOffer);
-		assertTrue(visibleBids.isEmpty());
-	}
-	
-	@Test
-	public void testDisplayBidBadUserForOffer() {
-		bid.setPrice(1000);
-		bid.setReservePrice(100);
-		bid.setBidState(BidState.PUBLISHED);
-		user.doOffer(bid, listOffer, 1500, alarmObserver);
-		bid.setBidState(BidState.CANCELED);
-        List<Bid> visibleBids = user2.displayBid(listBid, listOffer);
 		assertTrue(visibleBids.isEmpty());
 	}
 	
 	@Test
 	public void testDisplayBidSuccessOffer() {
-		bid.setPrice(1000);
-		bid.setReservePrice(100);
-		bid.setBidState(BidState.PUBLISHED);
+		user2.publishBid(bid);
 		user.doOffer(bid, listOffer, 1500, alarmObserver);
-		bid.setBidState(BidState.CANCELED);
-        List<Bid> visibleBids = user.displayBid(listBid, listOffer);
+		user2.cancelBid(bid);
+		List<Bid> visibleBids = user.displayBid(listBid, listOffer);
 		assertFalse(visibleBids.isEmpty());
 	}
 	
 	@Test
-	public void displayBuyerOfferSuccess() {
-		bid.setBidState(BidState.PUBLISHED);
+	public void testDisplayBidBadUserForOffer() {
+		user2.publishBid(bid);
+		user.doOffer(bid, listOffer, 1500, alarmObserver);
+		user2.cancelBid(bid);
+        List<Bid> visibleBids = user2.displayBid(listBid, listOffer);
+		assertTrue(visibleBids.isEmpty());
+	}
+	
+	@Test
+	public void testDisplayBuyerOfferSuccess() {
+		user2.publishBid(bid);
 		user.doOffer(bid, listOffer, 1500, alarmObserver);
 		List<Offer> buyerOffer = user.displayBuyerOffer(listOffer);
 		assertFalse(buyerOffer.isEmpty());
 	}
 	
 	@Test
-	public void displayBuyerOfferBadUser() {
-		bid.setBidState(BidState.PUBLISHED);
+	public void testDisplayBuyerOfferBadUser() {
+		user2.publishBid(bid);
 		user.doOffer(bid, listOffer, 1500, alarmObserver);
 		List<Offer> buyerOffer = user2.displayBuyerOffer(listOffer);
 		assertTrue(buyerOffer.isEmpty());
 	}
 
 	@Test
-	public void displayBuyerOfferEmptyList() {
+	public void testDisplayBuyerOfferEmptyList() {
 		List<Offer> buyerOffer = user.displayBuyerOffer(listOffer);
 		assertTrue(buyerOffer.isEmpty());
+	}	
+	
+	@Test
+	public void testCreateAlarmSuccess() {
+		user2.publishBid(bid);
+		user.doOffer(bid, listOffer, 1500, alarmObserver);
+		user.createAlarm(AlarmType.BID_CANCELED, bid, listAlarm);
+		assertEquals(listAlarm.size(), 1);
+	}	
+	
+	@Test
+	public void testCreateAlarmAlreadyExist() {
+		user2.publishBid(bid);
+		user.doOffer(bid, listOffer, 1500, alarmObserver);
+		user.createAlarm(AlarmType.BID_CANCELED, bid, listAlarm);
+		user.createAlarm(AlarmType.BID_CANCELED, bid, listAlarm);
+		assertEquals(listAlarm.size(), 2);
+	}	
+	
+	@Test
+	public void testDeleteAlarmSucess() {
+		user2.publishBid(bid);
+		user.doOffer(bid, listOffer, 1500, alarmObserver);
+		user.createAlarm(AlarmType.BID_CANCELED, bid, listAlarm);
+		user.deleteAlarm(AlarmType.BID_CANCELED, bid, listAlarm);
+		assertEquals(listAlarm.size(), 0);
 	}
 	
-	
+	@Test
+	public void testDeleteNonExistingAlarm() {
+		user2.publishBid(bid);
+		user.doOffer(bid, listOffer, 1500, alarmObserver);
+		user.deleteAlarm(AlarmType.BID_CANCELED, bid, listAlarm);
+		assertEquals(listAlarm.size(), 0);
+	}		
 }

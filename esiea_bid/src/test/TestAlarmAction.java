@@ -29,40 +29,40 @@ public class TestAlarmAction {
 	private Bid bid, bid2;
 	private Product product1;
 	private AlarmObserver alarmObserver;
-
 	
 	@Before
 	public void setUp() throws Exception {
 		listBid = new ArrayList<Bid>();
 		listOffer = new ArrayList<Offer>();
 		listAlarm = new HashSet<Alarm>();
-		alarmObserver = new AlarmObserver(BidState.CANCELED, listBid, listOffer, listAlarm);
+		alarmObserver = new AlarmObserver(listAlarm);
 		product1 = new Product("Blue Car");
 		user = new SystemUser("Dupont", "Thomas", "password");
 		user2 = new SystemUser("Durant", "Paul", "password");
 		user3 = new SystemUser("Hollande", "François", "password");
 		bid = new Bid(product1, new Date(), 1000, 2000, user2, alarmObserver);
 		bid2 = new Bid(product1, new Date(), 1000, 2000, user, alarmObserver);
+		listBid.add(bid);
+		listBid.add(bid2);
 	}
 
 	@Test
 	public void testCancelAlarm() {
 		//User1 has been offer on bid created by User2 and User2 canceled this bid
 		System.out.println("Test 1");
-		bid.setBidState(BidState.PUBLISHED);
+		user2.publishBid(bid);
 		user.doOffer(bid, listOffer, 1200, alarmObserver);
 		user.createAlarm(AlarmType.BID_CANCELED, bid, listAlarm);
 		user2.cancelBid(bid);
+		assertEquals(listAlarm.size(), 0);
 	}
 	
 	@Test
 	public void testBestOfferAlarm() {
 		//User1 do an offer on bid created by User2 and other user do a better offer
 		System.out.println("Test 2");
-		listBid.add(bid);
-		listBid.add(bid2);
-		bid.setBidState(BidState.PUBLISHED);
-		bid2.setBidState(BidState.PUBLISHED);
+		user2.publishBid(bid);
+		user.publishBid(bid2);
 		user.createAlarm(AlarmType.BEST_OFFER, bid, listAlarm);
 		user3.createAlarm(AlarmType.BEST_OFFER, bid, listAlarm);
 		user.doOffer(bid, listOffer, 2100, alarmObserver);
@@ -74,10 +74,8 @@ public class TestAlarmAction {
 	public void testReservePriceReachedAlarm() {
 		System.out.println("Test 3");
 		//User1 do an offer on bid created by User2 the reserve price is reached
-		listBid.add(bid);
-		listBid.add(bid2);
-		bid.setBidState(BidState.PUBLISHED);
-		bid2.setBidState(BidState.PUBLISHED);
+		user2.publishBid(bid);
+		user.publishBid(bid2);
 		user.createAlarm(AlarmType.RESERVE_PRICE_REACHED, bid, listAlarm);
 		user3.createAlarm(AlarmType.RESERVE_PRICE_REACHED, bid, listAlarm);
 		user.doOffer(bid, listOffer, 1500, alarmObserver);
@@ -92,7 +90,6 @@ public class TestAlarmAction {
 	public void testBuyerOffer() {
 		//User1 do an offer on bid created by User2, user 2 is notified
 		System.out.println("Test 4");
-		listBid.add(bid);
 		bid.setBidState(BidState.PUBLISHED);
 		user.doOffer(bid, listOffer, 1500, alarmObserver);
 	}

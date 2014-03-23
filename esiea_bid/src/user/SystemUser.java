@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import objects.Bid;
 import objects.BidState;
 import objects.Offer;
@@ -228,8 +226,19 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	 */
 	@Override
 	public void createAlarm(AlarmType alarmType, Bid bid, HashSet<Alarm> listAlarm) {
-		Alarm alarm = new Alarm(alarmType, bid, this);
-		listAlarm.add(alarm);
+		boolean alarmExist = false;
+		for (Alarm alarm : listAlarm)
+		{
+			if(alarm.getBid().equals(bid) && alarm.getAlarmType().equals(alarmType) && alarm.getUser().equals(this))
+			{
+				alarmExist = true;
+			}
+		}
+		if(!alarmExist)
+		{
+			Alarm newAlarm = new Alarm(alarmType, bid, this);
+			listAlarm.add(newAlarm);
+		}
 	}
 
 
@@ -242,6 +251,15 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	 */
 	@Override
 	public void deleteAlarm(AlarmType alarmType, Bid bid, HashSet<Alarm> listAlarm) {
+		for (Alarm alarm : listAlarm)
+		{
+			if(alarm.getBid().equals(bid) && alarm.getAlarmType().equals(alarmType) && alarm.getUser().equals(this))
+				listAlarm.remove(alarm);
+		}
+	}
+
+	@Override
+	public void displayBuyerOffer() {
 		// TODO Auto-generated method stub
 		
 	}

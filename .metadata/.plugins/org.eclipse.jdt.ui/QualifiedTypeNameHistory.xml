@@ -25,4 +25,5 @@
 <fullyQualifiedTypeName name="esiea_bid.AlarmType"/>
 <fullyQualifiedTypeName name="esiea_bid.BidState"/>
 <fullyQualifiedTypeName name="alarm_time.TimeManager"/>
+<fullyQualifiedTypeName name="alarm_time.AlarmType"/>
 </qualifiedTypeNameHistroy>
