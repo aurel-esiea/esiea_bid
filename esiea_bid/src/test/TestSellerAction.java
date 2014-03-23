@@ -100,4 +100,58 @@ public class TestSellerAction {
 		user.cancelBid(bid);
 		assertEquals(BidState.PUBLISHED, bid.getBidState());
 	}	
+	
+
+
+
+	@Test
+	public void displaySellerBidSuccess() {
+		bid.setSeller(user);
+		bid.setBidState(BidState.PUBLISHED);
+		listBid.add(bid);
+		List<Bid> sellerBid = user.displaySellerBid(listBid);
+		assertFalse(sellerBid.isEmpty());
+	}
+
+	@Test
+	public void displaySellerBidEmptyList() {
+		List<Bid> sellerBid = user.displaySellerBid(listBid);
+		assertTrue(sellerBid.isEmpty());
+	}
+
+	@Test
+	public void displaySellerBidBadUser() {
+		bid.setSeller(user);
+		bid.setBidState(BidState.PUBLISHED);
+		listBid.add(bid);
+		List<Bid> sellerBid = user2.displaySellerBid(listBid);
+		assertTrue(sellerBid.isEmpty());
+	}
+
+
+	@Test
+	public void showBuyerOfferSuccess() {
+		bid.setSeller(user);
+		bid.setBidState(BidState.PUBLISHED);
+		user2.doOffer(bid, listOffer, 3000, alarmObserver);
+		listBid.add(bid);
+		List<Offer> buyerOffer = user.showBuyerOffer(listOffer);
+		assertFalse(buyerOffer.isEmpty());
+	}
+
+	@Test
+	public void showBuyerOfferBadUser() {
+		bid.setSeller(user);
+		bid.setBidState(BidState.PUBLISHED);
+		listBid.add(bid);
+		user2.doOffer(bid, listOffer, 3000, alarmObserver);
+		List<Offer> buyerOffer = user2.showBuyerOffer(listOffer);
+		assertTrue(buyerOffer.isEmpty());
+	}
+
+	@Test
+	public void showBuyerOfferEmptyList() {
+		List<Offer> buyerOffer = user.showBuyerOffer(listOffer);
+		assertTrue(buyerOffer.isEmpty());
+	}
 }
