@@ -162,20 +162,61 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		}
 	}
 
-	
+	/**  
+	 * Get all bids of a seller 
+	 * @param List<Offer> listOffer
+	 * @return List<Offer> sellerOffer
+	 *
+	 */
 	@Override
-	public void displaySellerBid() {
+	public List<Bid> displaySellerBid(List<Bid> listBid) {
+		List<Bid> sellerBid = new ArrayList<Bid>();
+		for(Bid bid : listBid){
+			if(bid.getSeller().equals(this))
+			{
+				sellerBid.add(bid);
+			}
+		}
 		
+		return sellerBid;
 	}
 	
+	
+	/**  
+	 * Get all Offers on bids of a seller 
+	 * @param List<Offer> listOffer
+	 * @return List<Offer> sellerOffer
+	 *
+	 */
 	@Override
-	public void showBuyerOffer() {
+	public List<Offer> showBuyerOffer(List<Offer> listOffer) {
+		List<Offer> sellerOffer = new ArrayList<Offer>();
 		
+		for (Offer offer : listOffer) {
+			if(offer.getBid().getSeller().equals(this)){
+				sellerOffer.add(offer);
+			}
+		}
+		return sellerOffer;
 	}
 	
+	/**  
+	 * Get all Offers of a buyer 
+	 * @param List<Offer> listOffer
+	 * @return List<Offer> buyerOffer
+	 *
+	 */
 	@Override
-	public void displayBuyerOffer() {
+	public List<Offer> displayBuyerOffer(List<Offer> listOffer) {
+		List<Offer> buyerOffer = new ArrayList<Offer>();
 		
+		for (Offer offer : listOffer) {
+			if(offer.getBuyer().equals(this)){
+				buyerOffer.add(offer);
+			}
+		}
+		
+		return buyerOffer;
 	}
 
 	/**  
@@ -191,9 +232,19 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		listAlarm.add(alarm);
 	}
 
+
+	/**  
+	 * Delete an alarm on a bid 
+	 * @param AlarmType alarmType
+	 * @param Bid bid
+	 * @param HashSet<Alarm> listAlarm
+	 *
+	 */
 	@Override
 	public void deleteAlarm(AlarmType alarmType, Bid bid, HashSet<Alarm> listAlarm) {
 		// TODO Auto-generated method stub
 		
-	}	
+	}
+
+
 }

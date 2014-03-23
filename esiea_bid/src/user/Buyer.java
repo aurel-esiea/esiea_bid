@@ -15,4 +15,5 @@ public interface Buyer {
 	public void doOffer(Bid bid, List<Offer> listOffer, double price, AlarmObserver alarmObserver);
 	public void createAlarm(AlarmType alarmType, Bid bid, HashSet<Alarm> listAlarm);
 	public void deleteAlarm(AlarmType alarmType, Bid bid, HashSet<Alarm> listAlarm);
+	public List<Offer> displayBuyerOffer(List<Offer> listOffer);
 }
