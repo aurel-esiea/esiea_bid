@@ -71,23 +71,20 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	 */
 	@Override
 	public void cancelBid(Bid bid) {
-		if(bid.getPrice() > bid.getReservePrice())
+		if(bid.getPrice() < bid.getReservePrice())
 		{	
+			if(bid.getSeller().equals(this))
+			{
+				bid.setBidState(BidState.CANCELED);
+			    System.out.println("Bid canceled");
+			}
+			else
+			{
+				System.out.println("You don't are the seller, unable to cancel this bid");	
+			}	
+		}
+	    else 
 			System.out.println("Reserve price has been reached, unable to cancel this bid");
-		}
-	    else if (!bid.getSeller().equals(this))
-	    {
-	    	System.out.println("You don't are the seller, unable to cancel this bid");	
-	    }	
-		else if (bid.getBidState().equals(BidState.END))
-		{
-	    	System.out.println("Bis was terminated, unable to cancel this bid");	
-		}
-		else
-		{
-			bid.setBidState(BidState.CANCELED);
-	    	System.out.println("Bid canceled");
-		}
 	}
 
 	/**  
@@ -109,6 +106,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 				}
 			}
 		}
+
         for (Bid bid : listBid) {
             if(bid.getBidState().equals(BidState.PUBLISHED))
             {
@@ -151,16 +149,12 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		{
 			System.out.println("A seller cannot do an offer on his own bid");		
 		}
-		else if(!bid.getBidState().equals(BidState.PUBLISHED))
-		{
-			System.out.println("Bid is not in 'published' state");		
-		}
 		else
 		{
 			Offer offer = new Offer(bid, price, this, alarmObserver);
 			listOffer.add(offer);
 			offer.notifyObserver();
-			bid.setFirstOffer(false);
+			offer.getBid().setFirstOffer(false);
 			bid.setPrice(price);
 			System.out.println("Offer created");		
 		}

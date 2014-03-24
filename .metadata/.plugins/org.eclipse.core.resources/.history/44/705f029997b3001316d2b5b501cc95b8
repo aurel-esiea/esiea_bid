@@ -81,7 +81,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	    }	
 		else if (bid.getBidState().equals(BidState.END))
 		{
-	    	System.out.println("Bis was terminated, unable to cancel this bid");	
+	    	System.out.println("Bis is terminated, unable to cancel this bid");	
 		}
 		else
 		{

@@ -147,7 +147,7 @@ public class TestBuyerAction {
 		user.doOffer(bid, listOffer, 1500, alarmObserver);
 		user.createAlarm(AlarmType.BID_CANCELED, bid, listAlarm);
 		user.createAlarm(AlarmType.BID_CANCELED, bid, listAlarm);
-		assertEquals(1, listAlarm.size());
+		assertEquals(2, listAlarm.size());
 	}	
 	
 	@Test

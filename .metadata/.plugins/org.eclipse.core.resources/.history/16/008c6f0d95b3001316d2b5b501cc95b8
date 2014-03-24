@@ -2,7 +2,6 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -29,8 +28,7 @@ public class TestSellerAction {
 	private Bid bid;
 	private Product product1;
 	private AlarmObserver alarmObserver;
-	Date date1;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		listBid = new ArrayList<Bid>();
@@ -38,39 +36,38 @@ public class TestSellerAction {
 		listAlarm = new HashSet<Alarm>();
 		alarmObserver = new AlarmObserver(listAlarm);
 		product1 = new Product("Blue Car");
-		date1 = new Date();
 		user = new SystemUser("Dupont", "Thomas", "password");
 		user2 = new SystemUser("Durant", "Paul", "password");
-		bid = new Bid(product1, date1, 1000, 2000, user, alarmObserver);
+		bid = new Bid(product1, new Date(), 1000, 2000, user, alarmObserver);
 	}
 
 	@Test
 	public void testSucessBidCreation() {
-		user.createBid(product1, listBid, 1000.00, 3000.00, date1, alarmObserver);
+		user.createBid(product1, listBid, 1000.00, 3000.00, new Date(), alarmObserver);
 		assertFalse(listBid.isEmpty());
 	}
 	
 	@Test
 	public void testBidCreationNegativePrice() {
-		user.createBid(product1, listBid, -1000.00, 3000.00, date1, alarmObserver);
+		user.createBid(product1, listBid, -1000.00, 3000.00, new Date(), alarmObserver);
 		assertTrue(listBid.isEmpty());
 	}
 
 	@Test
 	public void testBidCreationBadReservePrice() {
-		user.createBid(product1, listBid, 2000.00, 1000.00, date1, alarmObserver);
+		user.createBid(product1, listBid, 2000.00, 1000.00, new Date(), alarmObserver);
 		assertTrue(listBid.isEmpty());
 	}
 	
 	@Test
 	public void testBidCreationNegativeReservePrice() {
-		user.createBid(product1, listBid, 2000.00, -1000.00, date1, alarmObserver);
+		user.createBid(product1, listBid, 2000.00, -1000.00, new Date(), alarmObserver);
 		assertTrue(listBid.isEmpty());
 	}
 	
 	@Test
 	public void testBidCreationBadDate() {
-		user.createBid(product1, listBid, 1000.00, 3000.00, date1, alarmObserver);
+		user.createBid(product1, listBid, 1000.00, 3000.00, new Date(), alarmObserver);
 		assertTrue(listBid.isEmpty());
 	}
 	
@@ -120,7 +117,8 @@ public class TestSellerAction {
 
 	@Test
 	public void testDisplaySellerBidBadUser() {
-		user.publishBid(bid);
+		bid.setSeller(user);
+		bid.setBidState(BidState.PUBLISHED);
 		listBid.add(bid);
 		List<Bid> sellerBid = user2.displaySellerBid(listBid);
 		assertTrue(sellerBid.isEmpty());
@@ -128,7 +126,8 @@ public class TestSellerAction {
 
 	@Test
 	public void testShowBuyerOfferSuccess() {
-		user.publishBid(bid);
+		bid.setSeller(user);
+		bid.setBidState(BidState.PUBLISHED);
 		user2.doOffer(bid, listOffer, 3000, alarmObserver);
 		listBid.add(bid);
 		List<Offer> buyerOffer = user.showBuyerOffer(listOffer);
@@ -137,7 +136,8 @@ public class TestSellerAction {
 
 	@Test
 	public void testShowBuyerOfferBadUser() {
-		user.publishBid(bid);
+		bid.setSeller(user);
+		bid.setBidState(BidState.PUBLISHED);
 		listBid.add(bid);
 		user2.doOffer(bid, listOffer, 3000, alarmObserver);
 		List<Offer> buyerOffer = user2.showBuyerOffer(listOffer);

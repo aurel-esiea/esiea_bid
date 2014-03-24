@@ -79,9 +79,9 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	    {
 	    	System.out.println("You don't are the seller, unable to cancel this bid");	
 	    }	
-		else if (bid.getBidState().equals(BidState.END))
+		else if (!bid.getBidState().equals(BidState.PUBLISHED))
 		{
-	    	System.out.println("Bis was terminated, unable to cancel this bid");	
+	    	System.out.println("Bis is not in 'published' state");	
 		}
 		else
 		{

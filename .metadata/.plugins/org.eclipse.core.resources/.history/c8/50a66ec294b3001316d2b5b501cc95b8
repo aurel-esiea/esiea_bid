@@ -71,17 +71,17 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	 */
 	@Override
 	public void cancelBid(Bid bid) {
-		if(bid.getPrice() > bid.getReservePrice())
+		if(bid.getPrice() < bid.getReservePrice())
 		{	
 			System.out.println("Reserve price has been reached, unable to cancel this bid");
 		}
-	    else if (!bid.getSeller().equals(this))
+	    else if (bid.getSeller().equals(this))
 	    {
 	    	System.out.println("You don't are the seller, unable to cancel this bid");	
 	    }	
-		else if (bid.getBidState().equals(BidState.END))
+		else if (!bid.getBidState().equals(BidState.CREATED))
 		{
-	    	System.out.println("Bis was terminated, unable to cancel this bid");	
+	    	System.out.println("Bis is not in 'created' state");	
 		}
 		else
 		{
@@ -109,6 +109,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 				}
 			}
 		}
+
         for (Bid bid : listBid) {
             if(bid.getBidState().equals(BidState.PUBLISHED))
             {
@@ -160,7 +161,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 			Offer offer = new Offer(bid, price, this, alarmObserver);
 			listOffer.add(offer);
 			offer.notifyObserver();
-			bid.setFirstOffer(false);
+			offer.getBid().setFirstOffer(false);
 			bid.setPrice(price);
 			System.out.println("Offer created");		
 		}

@@ -5,10 +5,6 @@ import java.util.Date;
 public class TimeManager {
 	private Date systemTime;
 	
-	public TimeManager(Date date){
-		this.systemTime = date;
-	}
-	
 	public Date getSystemTime() {
 		return systemTime;
 	}

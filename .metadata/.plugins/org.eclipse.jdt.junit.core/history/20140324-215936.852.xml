@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testrun name="TestBuyerAction" project="esiea_bid" tests="16" started="16" failures="0" errors="0" ignored="0">
+  <testsuite name="test.TestBuyerAction" time="0.001">
+    <testcase name="testDeleteAlarmSucess" classname="test.TestBuyerAction" time="0.001"/>
+    <testcase name="testCreateAlarmSuccess" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testDisplayBuyerOfferEmptyList" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testDisplayBidSuccessOffer" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testDisplayBuyerOfferSuccess" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testCreateAlarmAlreadyExist" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testDisplayBidSuccess" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testDeleteNonExistingAlarm" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testdoOfferByTheSeller" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testDisplayBidBadUserForOffer" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testDisplayBuyerOfferBadUser" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testDisplayBidBadStateCanceled" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testdoOfferBadPrice" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testdoOfferBidNotPublished" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testdoOfferSucess" classname="test.TestBuyerAction" time="0.0"/>
+    <testcase name="testDisplayBidBadStateCreated" classname="test.TestBuyerAction" time="0.0"/>
+  </testsuite>
+</testrun>

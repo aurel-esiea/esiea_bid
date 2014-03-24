@@ -30,6 +30,7 @@ public class TestSellerAction {
 	private Product product1;
 	private AlarmObserver alarmObserver;
 	Date date1;
+	SimpleDateFormat simpleFormat; 
 	
 	@Before
 	public void setUp() throws Exception {
@@ -38,7 +39,8 @@ public class TestSellerAction {
 		listAlarm = new HashSet<Alarm>();
 		alarmObserver = new AlarmObserver(listAlarm);
 		product1 = new Product("Blue Car");
-		date1 = new Date();
+		simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
+		date1 = simpleFormat.format(new Date());
 		user = new SystemUser("Dupont", "Thomas", "password");
 		user2 = new SystemUser("Durant", "Paul", "password");
 		bid = new Bid(product1, date1, 1000, 2000, user, alarmObserver);
