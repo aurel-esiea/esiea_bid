@@ -118,7 +118,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
             }
         }
         
-        // debug display (optional)
+        // debug display (optionnal)
         for (Bid bid : visibleBids) {
 			System.out.println("Product description : " + bid.getProduct().getDescription());
 			System.out.println("Product price : " + bid.getPrice());
@@ -126,6 +126,8 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 			if(bid.getPrice() >= bid.getReservePrice())
 				System.out.println("Reserve price has been reached");
         }
+
+
         return visibleBids;
 	}
 
@@ -181,6 +183,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 				sellerBid.add(bid);
 			}
 		}
+		
 		return sellerBid;
 	}
 	
@@ -209,7 +212,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	 * @return List<Offer> buyerOffer
 	 *
 	 */
-	@Override 
+	@Override
 	public List<Offer> displayBuyerOffer(List<Offer> listOffer) {
 		List<Offer> buyerOffer = new ArrayList<Offer>();
 		
@@ -218,6 +221,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 				buyerOffer.add(offer);
 			}
 		}
+		
 		return buyerOffer;
 	}
 
@@ -260,5 +264,11 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 			if(alarm.getBid().equals(bid) && alarm.getAlarmType().equals(alarmType) && alarm.getUser().equals(this))
 				listAlarm.remove(alarm);
 		}
+	}
+
+	@Override
+	public void displayBuyerOffer() {
+		// TODO Auto-generated method stub
+		
 	}
 }

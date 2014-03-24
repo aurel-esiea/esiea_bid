@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import objects.Bid;
+import objects.BidState;
 import objects.Offer;
 import objects.Product;
 

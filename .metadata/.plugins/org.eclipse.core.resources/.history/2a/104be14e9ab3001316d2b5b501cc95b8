@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import objects.Bid;
+import objects.BidState;
 import objects.Offer;
 import objects.Product;
 
@@ -44,27 +45,28 @@ public class TestBuyerAction {
 
 	@Test
 	public void testdoOfferSucess() {
-		user2.publishBid(bid);
+		bid.setBidState(BidState.PUBLISHED);
 		user.doOffer(bid, listOffer, 1500, alarmObserver);
 		assertFalse(listOffer.isEmpty());
 	}
 	
 	@Test
 	public void testdoOfferBadPrice() {
-		user2.publishBid(bid);
+		bid.setBidState(BidState.PUBLISHED);
 		user.doOffer(bid, listOffer, 800, alarmObserver);
 		assertTrue(listOffer.isEmpty());
 	}
 	
 	@Test
 	public void testdoOfferBidNotPublished() {
+		bid.setBidState(BidState.CREATED);
 		user.doOffer(bid, listOffer, 1500, alarmObserver);
 		assertTrue(listOffer.isEmpty());
 	}
 	
 	@Test
 	public void testdoOfferByTheSeller() {
-		user2.publishBid(bid);
+		bid.setBidState(BidState.PUBLISHED);
 		user2.doOffer(bid, listOffer, 1500, alarmObserver);
 		assertTrue(listOffer.isEmpty());
 	}
@@ -78,6 +80,7 @@ public class TestBuyerAction {
 
 	@Test
 	public void testDisplayBidBadStateCreated() {
+		bid.setBidState(BidState.CREATED);
         List<Bid> visibleBids = user.displayBid(listBid, listOffer);
 		assertTrue(visibleBids.isEmpty());
 	}

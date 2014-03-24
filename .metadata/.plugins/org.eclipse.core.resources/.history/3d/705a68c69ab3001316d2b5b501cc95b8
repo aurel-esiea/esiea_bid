@@ -209,7 +209,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	 * @return List<Offer> buyerOffer
 	 *
 	 */
-	@Override 
+	@Override
 	public List<Offer> displayBuyerOffer(List<Offer> listOffer) {
 		List<Offer> buyerOffer = new ArrayList<Offer>();
 		
