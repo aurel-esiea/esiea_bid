@@ -3,7 +3,9 @@ package test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import org.junit.Test;
 
 import alarm_time.Alarm;
 import alarm_time.AlarmObserver;
+import alarm_time.TimeManager;
+import alarm_time.TimeObserver;
 import user.SystemUser;
 
 public class TestSellerAction {
@@ -28,7 +32,10 @@ public class TestSellerAction {
 	private Bid bid;
 	private Product product1;
 	private AlarmObserver alarmObserver;
-	Date date1;
+	private TimeManager timeManager;
+	private TimeObserver timeObserver;
+	private GregorianCalendar calendar;
+	private Date date1;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -36,40 +43,45 @@ public class TestSellerAction {
 		listOffer = new ArrayList<Offer>();
 		listAlarm = new HashSet<Alarm>();
 		alarmObserver = new AlarmObserver(listAlarm);
+		timeObserver = new TimeObserver(listBid, listOffer);
+		timeManager = new TimeManager(new Date(), timeObserver);
 		product1 = new Product("Blue Car");
-		date1 = new Date();
-		user = new SystemUser("Dupont", "Thomas", "password");
-		user2 = new SystemUser("Durant", "Paul", "password");
+		calendar = new GregorianCalendar(2014, Calendar.APRIL, 15);
+		date1 = calendar.getTime();
+		user = new SystemUser("user", "Dupont", "Thomas", "password");
+		user2 = new SystemUser("user2", "Durant", "Paul", "password");
 		bid = new Bid(product1, date1, 1000, 2000, user, alarmObserver);
 	}
 
 	@Test
 	public void testSucessBidCreation() {
-		user.createBid(product1, listBid, 1000.00, 3000.00, date1, alarmObserver);
+		user.createBid(product1, listBid, 1000.00, 3000.00, date1, alarmObserver, timeManager);
 		assertFalse(listBid.isEmpty());
 	}
 	
 	@Test
 	public void testBidCreationNegativePrice() {
-		user.createBid(product1, listBid, -1000.00, 3000.00, date1, alarmObserver);
+		user.createBid(product1, listBid, -1000.00, 3000.00, date1, alarmObserver, timeManager);
 		assertTrue(listBid.isEmpty());
 	}
 
 	@Test
 	public void testBidCreationBadReservePrice() {
-		user.createBid(product1, listBid, 2000.00, 1000.00, date1, alarmObserver);
+		user.createBid(product1, listBid, 2000.00, 1000.00, date1, alarmObserver, timeManager);
 		assertTrue(listBid.isEmpty());
 	}
 	
 	@Test
 	public void testBidCreationNegativeReservePrice() {
-		user.createBid(product1, listBid, 2000.00, -1000.00, date1, alarmObserver);
+		user.createBid(product1, listBid, 2000.00, -1000.00, date1, alarmObserver, timeManager);
 		assertTrue(listBid.isEmpty());
 	}
 	
 	@Test
 	public void testBidCreationBadDate() {
-		user.createBid(product1, listBid, 1000.00, 3000.00, date1, alarmObserver);
+		calendar = new GregorianCalendar(2014, Calendar.APRIL, 16);
+		timeManager.setSystemTime(calendar.getTime());
+		user.createBid(product1, listBid, 1000.00, 3000.00, date1, alarmObserver, timeManager);
 		assertTrue(listBid.isEmpty());
 	}
 	

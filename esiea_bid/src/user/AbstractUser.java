@@ -2,6 +2,7 @@ package user;
 
 public abstract class AbstractUser {
 		
+	protected String login;
 	protected String lastName;
 	protected String firstName;
 	protected String password;
@@ -27,5 +28,11 @@ public abstract class AbstractUser {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+	public String getLogin() {
+		return login;
+	}
+	public void setLogin(String login) {
+		this.login = login;
 	}
 }

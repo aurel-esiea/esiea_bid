@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+
 import objects.Bid;
 import objects.BidState;
 import objects.Offer;
@@ -11,12 +12,14 @@ import objects.Product;
 import alarm_time.Alarm;
 import alarm_time.AlarmObserver;
 import alarm_time.AlarmType;
+import alarm_time.TimeManager;
 
 
 public class SystemUser extends AbstractUser implements Buyer, Seller {
 
-	public SystemUser (String lastName, String firstName, String password)
+	public SystemUser (String login, String lastName, String firstName, String password)
 	{
+		this.login = login;
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.password = password;
@@ -33,7 +36,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	 *
 	 */
 	@Override
-	public void createBid(Product product,List<Bid> listBid,  double price, double reservePrice, Date endDate, AlarmObserver cancelObserver) {
+	public void createBid(Product product,List<Bid> listBid,  double price, double reservePrice, Date endDate, AlarmObserver alarmObserver, TimeManager timeManager) {
 		if (price < 0)
 		{
 			System.out.println("Negative Price");
@@ -44,11 +47,15 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		}
 		else if(price > reservePrice)
 		{
-			System.out.println("The reserve price cannot be lower than  the starting price");
+			System.out.println("The reserve price cannot be lower than the starting price");
+		}
+		else if (endDate.before(timeManager.getSystemTime()))
+		{
+			System.out.println("End date is before than current date");
 		}
 		else
 		{
-			Bid bid = new Bid(product ,new Date(), price, reservePrice, this, cancelObserver);
+			Bid bid = new Bid(product ,new Date(), price, reservePrice, this, alarmObserver);
 			listBid.add(bid);
 		}
 	}
@@ -70,7 +77,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	 */
 	@Override
 	public void cancelBid(Bid bid) {
-		if(bid.getPrice() > bid.getReservePrice())
+		if(bid.isReservePriceReached())
 		{	
 			System.out.println("Reserve price has been reached, unable to cancel this bid");
 		}
@@ -151,16 +158,11 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		{
 			System.out.println("A seller cannot do an offer on his own bid");		
 		}
-		else if(!bid.getBidState().equals(BidState.PUBLISHED))
-		{
-			System.out.println("Bid is not in 'published' state");		
-		}
 		else
 		{
 			Offer offer = new Offer(bid, price, this, alarmObserver);
 			listOffer.add(offer);
 			offer.notifyObserver();
-			bid.setFirstOffer(false);
 			bid.setPrice(price);
 			System.out.println("Offer created");		
 		}
@@ -183,7 +185,6 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		}
 		return sellerBid;
 	}
-	
 	
 	/**  
 	 * Get all Offers on bids of a seller 
@@ -245,7 +246,6 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		}
 	}
 
-
 	/**  
 	 * Delete an alarm on a bid 
 	 * @param AlarmType alarmType
@@ -257,7 +257,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	public void deleteAlarm(AlarmType alarmType, Bid bid, HashSet<Alarm> listAlarm) {
 		for (Alarm alarm : listAlarm)
 		{
-			if(alarm.getBid().equals(bid) && alarm.getAlarmType().equals(alarmType) && alarm.getUser().equals(this))
+			if(alarm.getBid().equals(bid) && alarm.getAlarmType().equals(alarmType) && alarm.getUser().equals(this))	
 				listAlarm.remove(alarm);
 		}
 	}

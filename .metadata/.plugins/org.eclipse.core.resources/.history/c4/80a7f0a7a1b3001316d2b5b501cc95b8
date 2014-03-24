@@ -1,0 +1,32 @@
+package alarm_time;
+
+import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
+
+public class TimeManager extends Observable implements Observer{
+	private Date systemTime;
+	private List<Bid> listBid;
+	public TimeManager(Date date, List<Bid> listBid){
+		this.systemTime = date;
+		this.listBid = listBid;
+	}
+	
+	public Date getSystemTime() {
+		return systemTime;
+	}
+
+	public void setSystemTime(Date systemTime) {
+		this.systemTime = systemTime;
+		setChanged();
+		notifyObservers();
+	}
+
+	@Override
+	public void update(Observable obs, Object arg1) {
+		if(obs instanceof TimeManager)
+		{
+			for (Bid bid : lisrtBid)
+		}
+	}
+}

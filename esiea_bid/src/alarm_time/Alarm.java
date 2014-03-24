@@ -38,6 +38,4 @@ public class Alarm {
 	public void setUser(SystemUser user) {
 		this.user = user;
 	}
-	
-
 }

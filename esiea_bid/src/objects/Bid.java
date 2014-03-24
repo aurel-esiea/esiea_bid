@@ -15,17 +15,15 @@ public class Bid extends Observable{
 	private Product product;
 	private SystemUser seller;
 	private boolean reservePriceReached;
-	private boolean firstOffer;
 
 	public Bid (Product product, Date endDate, double price, double reservePrice, SystemUser seller, AlarmObserver alarmObserver){
-		this.setProduct(product);
+		this.product = product;
 		this.endDate = endDate;
 		this.price = price;
 		this.reservePrice = reservePrice;
 		this.seller = seller;
 		this.bidState = BidState.CREATED;
 		this.reservePriceReached = false;
-		this.firstOffer = true;
 		this.addObserver(alarmObserver);
 	}
 
@@ -86,12 +84,4 @@ public class Bid extends Observable{
 	public void setReservePriceReached(boolean reservePriceReached) {
 		this.reservePriceReached = reservePriceReached;
 	}
-
-	public boolean isFirstOffer() {
-		return firstOffer;
-	}
-
-	public void setFirstOffer(boolean firstOffer) {
-		this.firstOffer = firstOffer;
-	}	
 }
