@@ -44,11 +44,10 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		}
 		else if(price > reservePrice)
 		{
-			System.out.println("Reserve price is lower than price");
+			System.out.println("The reserve price cannot be lower than  the starting price");
 		}
 		else
 		{
-			//try
 			Bid bid = new Bid(product ,new Date(), price, reservePrice, this, cancelObserver);
 			listBid.add(bid);
 		}
@@ -80,11 +79,11 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 			}
 			else
 			{
-				System.out.println("You don't are the seller, unable to cancel this bid");	
+				System.out.println("Only the seller can cancel the bid");	
 			}	
 		}
 	    else 
-			System.out.println("Reserve price has been reached, unable to cancel this bid");
+			System.out.println("The reserve price has been reached. Unable to cancel the bid");
 	}
 
 	/**  
@@ -98,6 +97,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	public List<Bid> displayBid(List<Bid> listBid, List<Offer> listOffer) {
 		List<Bid> visibleBids = new ArrayList<Bid>();
 		
+		// iterate through offers to find bids matching our buyer
 		for (Offer offer : listOffer) {
 			if(offer.getBuyer().equals(this)){
 				Bid b = offer.getBid();
@@ -107,6 +107,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 			}
 		}
 
+		// get the published bids
         for (Bid bid : listBid) {
             if(bid.getBidState().equals(BidState.PUBLISHED))
             {
@@ -114,7 +115,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
             }
         }
         
-        /* OPTIONAL DISPLAY */
+        // debug display (optionnal)
         for (Bid bid : visibleBids) {
 			System.out.println("Product description : " + bid.getProduct().getDescription());
 			System.out.println("Product price : " + bid.getPrice());
@@ -139,7 +140,7 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 	public void doOffer(Bid bid, List<Offer> listOffer, double price, AlarmObserver alarmObserver) {
 		if (price <= bid.getPrice())
 		{
-			System.out.println("Offer price lower than current bid price");		
+			System.out.println("The offer cannot be lower than the current price");		
 		}
 		else if(!bid.getBidState().equals(BidState.PUBLISHED))
 		{
