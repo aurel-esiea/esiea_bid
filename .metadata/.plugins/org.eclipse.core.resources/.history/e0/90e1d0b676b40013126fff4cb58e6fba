@@ -66,8 +66,6 @@ public class TestAlarmAndTimeAction {
 		user.doOffer(bid, listOffer, 1200, alarmObserver);
 		user.createAlarm(AlarmType.BID_CANCELED, bid, listAlarm);
 		user2.cancelBid(bid);
-		assertFalse(user.getNotificationList().isEmpty());
-		assertFalse(user2.getNotificationList().isEmpty());
 	}
 	
 	@Test
@@ -79,9 +77,8 @@ public class TestAlarmAndTimeAction {
 		user.doOffer(bid, listOffer, 2100, alarmObserver);
 		user.createAlarm(AlarmType.BEST_OFFER, bid, listAlarm);
 		user3.doOffer(bid, listOffer, 2200, alarmObserver);
-		assertFalse(user.getNotificationList().isEmpty());
-		assertTrue(user3.getNotificationList().isEmpty());
-		assertFalse(user2.getNotificationList().isEmpty());
+		user3.createAlarm(AlarmType.BEST_OFFER, bid, listAlarm);
+		user.doOffer(bid, listOffer, 2300, alarmObserver);
 	}
 	
 	@Test
@@ -97,9 +94,6 @@ public class TestAlarmAndTimeAction {
 		user.doOffer(bid, listOffer, 2100, alarmObserver);
 		user3.doOffer(bid, listOffer, 2200, alarmObserver);
 		assertTrue(bid.isReservePriceReached());
-		assertFalse(user.getNotificationList().isEmpty());
-		assertFalse(user2.getNotificationList().isEmpty());
-		assertFalse(user3.getNotificationList().isEmpty());
 	}
 	
 	@Test
@@ -108,7 +102,6 @@ public class TestAlarmAndTimeAction {
 		System.out.println("Test 4");
 		bid.setBidState(BidState.PUBLISHED);
 		user.doOffer(bid, listOffer, 1500, alarmObserver);
-		assertFalse(user2.getNotificationList().isEmpty());
 	}
 	
 	@Test

@@ -8,7 +8,7 @@ public abstract class AbstractUser {
 	protected String lastName;
 	protected String firstName;
 	protected String password;
-	protected List<String> notificationList;
+	protected List<String> notification;
 	
 	public String getPassword() {
 		return password;
@@ -38,10 +38,10 @@ public abstract class AbstractUser {
 	public void setLogin(String login) {
 		this.login = login;
 	}
-	public List<String> getNotificationList() {
-		return notificationList;
+	public List<String> getNotification() {
+		return notification;
 	}
-	public void setNotificationList(List<String> notificationList) {
-		this.notificationList = notificationList;
+	public void setNotification(List<String> notification) {
+		this.notification = notification;
 	}
 }

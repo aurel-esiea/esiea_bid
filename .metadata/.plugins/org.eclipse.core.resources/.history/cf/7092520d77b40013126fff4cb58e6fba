@@ -99,7 +99,6 @@ public class TestAlarmAndTimeAction {
 		assertTrue(bid.isReservePriceReached());
 		assertFalse(user.getNotificationList().isEmpty());
 		assertFalse(user2.getNotificationList().isEmpty());
-		assertFalse(user3.getNotificationList().isEmpty());
 	}
 	
 	@Test

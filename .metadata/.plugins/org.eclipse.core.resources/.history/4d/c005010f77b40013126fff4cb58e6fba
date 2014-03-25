@@ -23,7 +23,6 @@ public class SystemUser extends AbstractUser implements Buyer, Seller {
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.password = password;
-		this.notificationList = new ArrayList<String>();
 	}
 	
 	/**  

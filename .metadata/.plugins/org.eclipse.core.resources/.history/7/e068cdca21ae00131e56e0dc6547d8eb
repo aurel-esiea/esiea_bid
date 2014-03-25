@@ -1,8 +1,0 @@
-package esiea_bid;
-
-public interface Buyer {
-	
-	public void displayBid();
-	public void doOffer();
-
-}

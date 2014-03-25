@@ -63,7 +63,6 @@ public class AlarmObserver implements Observer{
 				}
 			}
 			System.out.println("Alarm for " + offer.getBid().getSeller().getFirstName() + ": user " + offer.getBuyer().getFirstName() + " do an offer on your bid " + offer.getBid().getProduct().getDescription());
-			offer.getBid().getSeller().getNotificationList().add("Alarm for " + offer.getBid().getSeller().getFirstName() + ": user " + offer.getBuyer().getFirstName() + " do an offer on your bid " + offer.getBid().getProduct().getDescription());
 		}
 	}
 }

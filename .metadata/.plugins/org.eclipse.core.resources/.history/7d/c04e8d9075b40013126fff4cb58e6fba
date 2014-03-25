@@ -1,15 +1,12 @@
 package user;
 
-import java.util.List;
-
 public abstract class AbstractUser {
 		
 	protected String login;
 	protected String lastName;
 	protected String firstName;
 	protected String password;
-	protected List<String> notificationList;
-	
+
 	public String getPassword() {
 		return password;
 	}
@@ -37,11 +34,5 @@ public abstract class AbstractUser {
 	}
 	public void setLogin(String login) {
 		this.login = login;
-	}
-	public List<String> getNotificationList() {
-		return notificationList;
-	}
-	public void setNotificationList(List<String> notificationList) {
-		this.notificationList = notificationList;
 	}
 }

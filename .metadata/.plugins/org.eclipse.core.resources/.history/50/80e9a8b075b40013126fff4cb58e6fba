@@ -42,6 +42,6 @@ public abstract class AbstractUser {
 		return notificationList;
 	}
 	public void setNotificationList(List<String> notificationList) {
-		this.notificationList = notificationList;
+		this.notificationList = notification;
 	}
 }
