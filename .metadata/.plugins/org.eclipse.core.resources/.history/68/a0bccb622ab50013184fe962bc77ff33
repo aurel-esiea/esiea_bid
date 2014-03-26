@@ -113,8 +113,6 @@ public class TestAlarmAndTimeAction {
 	
 	@Test
 	public void testBidEndDate() {
-		/*User do an offer on bid created by user2, set the system time after the ended date
-		*of the bid, then check if the bidState change.*/
 		user2.publishBid(bid);
 		user.doOffer(bid, listOffer, 3100, alarmObserver);
 		calendar = new GregorianCalendar(2014, Calendar.APRIL, 16);

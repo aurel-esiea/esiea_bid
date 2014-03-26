@@ -26,8 +26,6 @@ public class TimeObserver implements Observer {
 	 */
 	@Override
 	public void update(Observable obs, Object arg) {
-		/*If the observable is a TimeManager, check if the bid is ended and change bidState 
-		 * and notify users*/
 		if(obs instanceof TimeManager)
 		{
 			TimeManager timeManager = (TimeManager)obs;

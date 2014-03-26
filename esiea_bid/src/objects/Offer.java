@@ -19,6 +19,9 @@ public class Offer extends Observable {
 		this.addObserver(alarmObserver);
 	}
 	
+	/**  
+	 * Notify observers than an offer was done.
+	 */
 	public void notifyObserver(){
 		setChanged();
 		notifyObservers(this.bid);

@@ -17,15 +17,8 @@ public class AlarmObserver implements Observer{
 		this.listAlarm = listAlarm;
 	}
 	
-	/**  
-	 * Receive notification from observable object and do revelant actions 
-	 * @param Observable obs
-	 * @return Object arg1
-	 *
-	 */
 	@Override
 	public void update(Observable obs, Object arg1) {
-		// Check if observable is a Bid, then if the new bid state is Cancel, notify users.
 		if(obs instanceof Bid)
 		{
 			if(arg1.equals(BidState.CANCELED))
@@ -41,8 +34,6 @@ public class AlarmObserver implements Observer{
 			}
 		}
 		
-		/* Check if observable is an offer, then if the reserve price is reached 
-		 * or/and if a user do a better offer, notify users.*/
 		if(obs instanceof Offer)
 		{
 			Offer offer = (Offer)obs;

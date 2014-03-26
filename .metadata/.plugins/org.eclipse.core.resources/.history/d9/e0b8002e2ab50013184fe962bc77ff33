@@ -1,19 +1,27 @@
-package esiea_bid;
+package objects;
 
-import java.util.List;
 
+import java.util.Observable;
+
+import alarm_time.AlarmObserver;
 import user.SystemUser;
 
-public class Offer {
+public class Offer extends Observable {
 	
 	private Bid bid;
 	private double price;
 	private SystemUser buyer;
 	
-	public Offer (Bid bid, double price, SystemUser buyer){
+	public Offer (Bid bid, double price, SystemUser buyer, AlarmObserver alarmObserver){
 		this.bid = bid;
 		this.price = price;
 		this.buyer = buyer;
+		this.addObserver(alarmObserver);
+	}
+	
+	public void notifyObserver(){
+		setChanged();
+		notifyObservers(this.bid);
 	}
 	
 	public double getPrice() {

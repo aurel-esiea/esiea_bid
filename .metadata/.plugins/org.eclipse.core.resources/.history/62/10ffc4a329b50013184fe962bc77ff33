@@ -17,17 +17,8 @@ public class TimeObserver implements Observer {
 		this.listBid = listBid;
 		this.listOffer = listOffer;
 	}
-
-	/**  
-	 * Receive notification from observable object and do revelant actions 
-	 * @param Observable obs
-	 * @return Object arg
-	 *
-	 */
 	@Override
 	public void update(Observable obs, Object arg) {
-		/*If the observable is a TimeManager, check if the bid is ended and change bidState 
-		 * and notify users*/
 		if(obs instanceof TimeManager)
 		{
 			TimeManager timeManager = (TimeManager)obs;

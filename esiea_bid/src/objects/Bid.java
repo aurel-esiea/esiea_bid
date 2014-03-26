@@ -41,6 +41,7 @@ public class Bid extends Observable{
 
 	public void setBidState(BidState bidState) {
 		this.bidState = bidState;
+		//Notify observers than the bidState has changed
 		setChanged();
 	    notifyObservers(this.bidState);
 	}
