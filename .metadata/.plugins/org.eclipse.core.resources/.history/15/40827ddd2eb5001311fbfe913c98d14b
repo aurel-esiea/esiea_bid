@@ -3,10 +3,11 @@ package objects;
 public class Product {
 
 	private String description;
-	private int id;
+	private ProductState productState;
 	
 	public Product (String description){
 		this.description = description;
+		this.productState = ProductState.CREATED;
 	}
 
 	public String getDescription() {
@@ -17,12 +18,14 @@ public class Product {
 		this.description = description;
 	}
 
-	public int getId() {
-		return id;
+	
+	public ProductState getProductState() {
+		return productState;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	
+	public void setProductState(ProductState productState) {
+		this.productState = productState;
 	}
 	
 }
